@@ -2,9 +2,17 @@ import { ChannelType, CommandInteraction } from "discord.js";
 import { Discord, Guard, Slash, SlashOption } from "discordx";
 import { Admin, CountryCode } from "../../guard/commandGuard.js";
 import { I18NResolver as i18n } from "../../i18n/18nResolver.js"
+import { injectable } from "tsyringe";
+import { DatabaseManager } from "../../database/databaseManager.js";
 
 @Discord()
+@injectable()
 export class AdminUtils {
+    private _database: DatabaseManager;
+    constructor(private database: DatabaseManager) {
+        this._database = database;
+    }
+
     @Slash()
     @Guard(Admin, CountryCode)
     async purge(

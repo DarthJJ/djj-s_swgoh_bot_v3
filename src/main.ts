@@ -2,14 +2,15 @@ import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-d
 dotenv.config()
 import "reflect-metadata";
 import { dirname, importx } from "@discordx/importer";
-import type { Interaction, Message } from "discord.js";
+import { container } from "tsyringe";
 import { IntentsBitField } from "discord.js";
-import { Client } from "discordx";
+import { Client, DIService, tsyringeDependencyRegistryEngine } from "discordx";
 //Fix for discord bug
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
 };
 
+DIService.engine = tsyringeDependencyRegistryEngine.setInjector(container);
 
 export class Main {
   private static _client: Client;
