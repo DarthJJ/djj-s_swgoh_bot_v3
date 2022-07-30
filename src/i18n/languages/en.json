@@ -1,0 +1,22 @@
+[
+    {
+        "messageCode": 1001,
+        "value": "Please wait"
+    },
+    {
+        "messageCode": 1002,
+        "value": "This message will self-delete in 3 seconds"
+    },
+    {
+        "messageCode": 2001,
+        "value": "Deletion started"
+    },
+    {
+        "messageCode": 2002,
+        "value": "Deletion Finished"
+    },
+    {
+        "messageCode": 2003,
+        "value": "Nothing to delete"
+    }
+]
