@@ -18,5 +18,13 @@
     {
         "messageCode": 2003,
         "value": "Nothing to delete"
+    },
+    {
+        "messageCode": 2004,
+        "value": "This Command can only be executed in a Guild Text channel"
+    },
+    {
+        "messageCode": 2005,
+        "value": "Purge limit exceeded, max is: "
     }
 ]

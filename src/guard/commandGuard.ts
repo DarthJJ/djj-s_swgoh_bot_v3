@@ -1,4 +1,5 @@
 import { GuardFunction } from "discordx";
+import { Config } from '../utils/config.js';
 
 export const Admin: GuardFunction<any> = async (
     interaction,
@@ -6,7 +7,7 @@ export const Admin: GuardFunction<any> = async (
     next,
     guardData
 ) => {
-    if (interaction.user!.id === process.env.BOT_ADMIN_ID) { //BOT_ADMIN_OVERRIDE
+    if (interaction.user!.id === new Config().BOT_ADMIN_ID) { //BOT_ADMIN_OVERRIDE
         await next();
         return;
     }
@@ -20,7 +21,7 @@ export const BotOwner: GuardFunction<any> = async (
     next,
     guardData
 ) => {
-    if (interaction.user!.id !== process.env.BOT_ADMIN_ID) { //BOT_ADMIN_OVERRIDE
+    if (interaction.user!.id === new Config().BOT_ADMIN_ID) { //BOT_ADMIN_OVERRIDE
         await next();
         return;
     }

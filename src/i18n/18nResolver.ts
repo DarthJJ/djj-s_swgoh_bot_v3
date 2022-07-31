@@ -1,9 +1,13 @@
 import enJson from './languages/en.json' assert {type: 'json'}
 import nlJson from './languages/nl.json' assert {type: 'json'}
+import { singleton } from "tsyringe";
+
+@singleton()
 export class I18NResolver {
-    private static en: { [messageCode: number]: string } = {};
-    private static nl: { [messagecode: number]: string } = {};
-    public static _initialize() {
+    private en: { [messageCode: number]: string } = {};
+    private nl: { [messagecode: number]: string } = {};
+
+    constructor() {
         enJson.forEach((translation) => {
             this.en[translation.messageCode] = translation.value;
         })
@@ -12,7 +16,7 @@ export class I18NResolver {
         })
     }
 
-    static getTranslations(
+    getTranslations(
         countryCode: string,
         ...messageCode: number[]
     ) {
@@ -23,7 +27,7 @@ export class I18NResolver {
         return returnString;
     }
 
-    static getTranslation(
+    getTranslation(
         countryCode: string,
         messageCode: number,
     ) {
@@ -38,12 +42,13 @@ export class I18NResolver {
         }
     }
     //1xxx = Generic
-    static PLEASE_WAIT: number = 1001;
-    static MESSAGE_SELF_DELETE_3_SEC: number = 1002
+    PLEASE_WAIT: number = 1001;
+    MESSAGE_SELF_DELETE_3_SEC: number = 1002
 
     //2xxx = Command specific
-    static DELETION_STARTED: number = 2001;
-    static DELETION_FINISHED: number = 2002;
-    static DELETION_NOTHING: number = 2003;
+    PURGE_STARTED: number = 2001;
+    PURGE_FINISHED: number = 2002;
+    PURGE_NOTHING: number = 2003;
+    PURGE_WRONG_CHANNEL_TYPE: number = 2004
+    PURGE_MAX_EXCEEDED: number = 2005
 }
-I18NResolver._initialize();

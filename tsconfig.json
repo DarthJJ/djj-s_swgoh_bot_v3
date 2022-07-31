@@ -14,6 +14,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+    "strictPropertyInitialization": false
   },
   "exclude": [
     "build",
