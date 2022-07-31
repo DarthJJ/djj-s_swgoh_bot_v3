@@ -6,7 +6,7 @@ import { DatabaseManager as db } from '../../database/databaseManager.js'
 export class UserSetup {
     @Slash()
     async register(
-        @SlashOption("allycode", { description: "Your SWGOH allycode" })
+        @SlashOption("allycode", { description: "Your SWGOH allycode", required: true })
         allycode: number,
         interaction: CommandInteraction,
         guardData: any

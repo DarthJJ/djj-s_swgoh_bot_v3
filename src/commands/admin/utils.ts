@@ -1,6 +1,6 @@
 import { ChannelType, CommandInteraction } from "discord.js";
 import { Discord, Guard, Slash, SlashOption } from "discordx";
-import { Admin, CountryCode } from "../../guard/commandGuard.js";
+import { Admin, CountryCode, CommandEnabled, PlayerRegistered } from "../../guard/commandGuard.js";
 import { injectable } from "tsyringe";
 import { DatabaseManager } from "../../database/databaseManager.js";
 import { I18NResolver } from '../../i18n/18nResolver.js';
@@ -14,14 +14,14 @@ export class AdminUtils {
     private _database: DatabaseManager;
     private _i18n: I18NResolver;
     private _config: Config;
-    constructor(private database: DatabaseManager, private i18n: I18NResolver, private config: Config) {
+    constructor(database: DatabaseManager, i18n: I18NResolver, config: Config) {
         this._database = database;
         this._i18n = i18n;
         this._config = config;
     }
 
     @Slash()
-    @Guard(Admin, CountryCode)
+    @Guard(CommandEnabled, PlayerRegistered, Admin, CountryCode)
     @Description("Amount of messages to delete")
     async purge(
         @SlashOption("amount")

@@ -17,11 +17,11 @@ DIService.engine = tsyringeDependencyRegistryEngine.setInjector(container);
 export class Main {
   private _client: Client;
   private _config: Config;
-  private _database: unknown; //For some reason DI doesn't reflecth DatabaseManager as a class type.
+  private _database: DatabaseManager; //For some reason DI doesn't reflecth DatabaseManager as a class type.
 
   constructor() {
-    this._database = DIService.instance.getService(DatabaseManager);
-    this._config = DIService.instance.getService(Config)!;
+    this._database = container.resolve(DatabaseManager);
+    this._config = container.resolve(Config)!;
     this.start();
   }
   async start(): Promise<void> {

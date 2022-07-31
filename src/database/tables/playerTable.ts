@@ -15,7 +15,8 @@ export class PlayerTable implements iTable<Player>{
         return {
             allycode: { type: Number, primary: true },
             name: String,
-            localePref: { type: String, defaultTo: 'en' }
+            localePref: { type: String, defaultTo: 'en' },
+            discordId: { type: Number, defaultTo: -1 }
         }
     };
 
