@@ -21,7 +21,7 @@ export class UserSetup {
     @Slash()
     async register(
         @SlashOption("allycode", {
-            description: "Your SWGOH allycode",
+            description: "Your SWGOH allycode, format <XXXXXXXXX>",
             required: true,
             type: ApplicationCommandOptionType.Number,
             minValue: 100000000,

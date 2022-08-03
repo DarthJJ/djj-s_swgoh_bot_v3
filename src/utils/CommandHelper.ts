@@ -1,8 +1,8 @@
 import { ButtonInteraction, CommandInteraction, ModalSubmitInteraction } from "discord.js";
-import { RegisterError } from "../exceptions/registerError.js";
 import { DatabaseManager } from '../database/databaseManager.js';
 import { container } from 'tsyringe';
 import { I18NResolver } from "../i18n/I18nResolver.js";
+import { Config } from "./config.js";
 
 export type interactionType = CommandInteraction | ButtonInteraction;
 type botFunction = (interaction: interactionType, ...args: any) => Promise<number[]>;
@@ -24,10 +24,12 @@ export async function executeCommand(func: botFunction | botFunctionWithDb, inte
 
         botResponse(interaction, localePef, result); //to be extended if modals or anything will be sent
     } catch (exception) {
-        await interaction.editReply("Error: ```" + exception + "```");//TODO: logging + proper safeguarding for admin 
-        if (exception instanceof RegisterError) {
-            //Specific command error
+        if (interaction.member?.user.id === container.resolve(Config).BOT_ADMIN_ID) {
+            interaction.editReply("```" + exception + "```");
+            return;
         }
+        await interaction.editReply('An error occurred, please try again or contact the bot dev.');
+
     }
 }
 

@@ -49,28 +49,28 @@ export class Log {
         return yyyy + '-' + mm + '-' + dd;
     }
 
-    writeToFile = (message: string, filename: string) => {
+    private writeToFile = (message: string, filename: string) => {
         const filepath: string = './' + this._logPath + '/' + this.getDate() + '_' + filename;
         appendFile(filepath, message + "\n", (err) => {
             if (err) {
-                console.log(err);
+                console.error(err);
             }
         });
     }
 
-    logToDebug = (LogObject: ILogObject) => {
+    private logToDebug = (LogObject: ILogObject) => {
         this.writeToFile(JSON.stringify(LogObject), this.debugFile);
     }
 
-    logToError = (LogObject: ILogObject) => {
+    private logToError = (LogObject: ILogObject) => {
         this.writeToFile(JSON.stringify(LogObject), this.errorFile);
     }
 
-    logToInfo = (LogObject: ILogObject) => {
+    private logToInfo = (LogObject: ILogObject) => {
         this.writeToFile(JSON.stringify(LogObject), this.infoFile);
     }
 
-    logToVoid = (LogObject: ILogObject) => {
+    private logToVoid = (LogObject: ILogObject) => {
         //Do Nothing let it go to the enternal void;
     }
 }
