@@ -8,6 +8,10 @@
         "value": "This message will self-delete in 3 seconds"
     },
     {
+        "messageCode": 1003,
+        "value": "Enjoy using the bot!"
+    },
+    {
         "messageCode": 2001,
         "value": "Deletion started"
     },
@@ -26,5 +30,13 @@
     {
         "messageCode": 2005,
         "value": "Purge limit exceeded, max is: "
+    },
+    {
+        "messageCode": 2006,
+        "value": "You are already registered"
+    },
+    {
+        "messageCode": 2007,
+        "value": "Registration complete"
     }
 ]

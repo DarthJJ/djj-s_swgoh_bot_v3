@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { Config } from './utils/config.js';
 import { dirname, importx } from "@discordx/importer";
-import { container, injectable } from "tsyringe";
+import { container, autoInjectable } from "tsyringe";
 import { ActivityType, IntentsBitField } from "discord.js";
 import { Client, Discord, DIService, tsyringeDependencyRegistryEngine } from "discordx";
 import { DatabaseManager } from './database/databaseManager.js';
@@ -13,21 +13,21 @@ import { DatabaseManager } from './database/databaseManager.js';
 DIService.engine = tsyringeDependencyRegistryEngine.setInjector(container);
 
 @Discord()
-@injectable()
+@autoInjectable()
 export class Main {
   private _client: Client;
-  private _config: Config;
-  private _database: DatabaseManager; //For some reason DI doesn't reflecth DatabaseManager as a class type.
+  private _database: DatabaseManager;
+  private _config: Config
 
-  constructor() {
-    this._database = container.resolve(DatabaseManager);
-    this._config = container.resolve(Config)!;
-    this.start();
+  constructor(database?: DatabaseManager, config?: Config) {
+    this._database = database!;
+    this._config = config!;
   }
+
   async start(): Promise<void> {
     this._client = new Client({
-      botId: this._config.BOT_NAME,
-      botGuilds: this._config.DEV_MODE ? [this._config.DEV_GUILD_ID!] : undefined, //undefined == global command
+      botId: this._config!.BOT_NAME,
+      botGuilds: this._config!.DEV_MODE ? [this._config!.DEV_GUILD_ID!] : undefined, //undefined == global command
       // Discord intents
       intents: [
         IntentsBitField.Flags.Guilds,
@@ -36,9 +36,9 @@ export class Main {
         IntentsBitField.Flags.GuildMessageReactions,
         IntentsBitField.Flags.GuildPresences,
       ],
-      silent: this._config.SILENT_LOGGING,
+      silent: this._config!.SILENT_LOGGING,
       simpleCommand: {
-        prefix: this._config.BOT_PREFIX,
+        prefix: this._config!.BOT_PREFIX,
       },
     });
     this._client.once("ready", async () => {
@@ -48,8 +48,8 @@ export class Main {
         guild: { log: true },
       });
       //Only to be executed on release
-      if (!this._config.DEV_MODE) {
-        this._client.clearApplicationCommands(this._config.DEV_GUILD_ID!);
+      if (!this._config!.DEV_MODE) {
+        this._client.clearApplicationCommands(this._config!.DEV_GUILD_ID!);
       }
       this._client.user?.setPresence({
         activities: [{
@@ -66,10 +66,11 @@ export class Main {
     });
 
     await importx(dirname(import.meta.url) + "/{events,commands}/**/*.{ts,js}");
-    if (this._config.BOT_TOKEN === '-1') {
+    if (this._config!.BOT_TOKEN === '-1') {
       throw Error(">> Could not find the bot token, stopping bot");
     }
-    await this._client.login(this._config.BOT_TOKEN);
+    await this._client.login(this._config!.BOT_TOKEN);
   }
 }
-new Main();
+new Main().start();
+

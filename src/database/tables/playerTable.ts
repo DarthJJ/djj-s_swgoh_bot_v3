@@ -1,14 +1,14 @@
 import { iTable } from './iTable';
-import { Player } from '../../models/player';
+import { Player } from '../../models/player.js';
 import { LooseObject, SchemaRaw, Trilogy, Model } from 'trilogy';
 
 export class PlayerTable implements iTable<Player>{
     private readonly _database: Trilogy;
     public static tableName = 'players';
-    dbModel: Model;
+    private readonly _dbModel: Model;
     constructor(database: Trilogy) {
         this._database = database;
-        this.dbModel = this._database.getModel(PlayerTable.tableName);
+        this._dbModel = this._database.getModel(PlayerTable.tableName);
     }
 
     public static creationObject(): SchemaRaw<LooseObject> {
@@ -16,7 +16,7 @@ export class PlayerTable implements iTable<Player>{
             allycode: { type: Number, primary: true },
             name: String,
             localePref: { type: String, defaultTo: 'en' },
-            discordId: { type: Number, defaultTo: -1 }
+            discordId: { type: String, defaultTo: -1 }
         }
     };
 
@@ -24,8 +24,16 @@ export class PlayerTable implements iTable<Player>{
         throw new Error('Method not implemented.');
     }
 
+    async getByDiscordId(id: String): Promise<Player | null> {
+        const player = await this._dbModel.findOne({ discordId: id });
+        if (!player) {
+            return null;
+        }
+        return new Player(player.allycode, player.name, player.localePref, player.discordId);
+    }
+
     save(object: Player) {
-        this.dbModel.create(object.toDbModel());
+        this._dbModel.updateOrCreate({ allycode: object.allycode }, object.toDbModel());
     }
 
 }

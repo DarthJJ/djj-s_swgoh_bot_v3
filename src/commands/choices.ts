@@ -1,6 +1,6 @@
 import { CommandInteraction } from "discord.js";
 import { Discord, Guard, Slash, SlashChoice, SlashOption } from "discordx";
-import { Admin } from "../guard/commandGuard.js";
+import { Admin } from "../guard/genericCommandGuard.js";
 
 @Discord()
 export class Example {

@@ -1,11 +1,12 @@
 import { singleton } from 'tsyringe'
-import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+import * as dotenv from 'dotenv'
 dotenv.config()
 
 @singleton()
 export class Config {
     readonly DEV_MODE: boolean;
     readonly RECREATE_DB: boolean;
+    readonly FILL_TEST_DATA: boolean;
     readonly BOT_TOKEN: string;
     readonly BOT_ADMIN_ID: string;
     readonly DEV_GUILD_ID: string;
@@ -13,6 +14,7 @@ export class Config {
     readonly SILENT_LOGGING: boolean;
     readonly BOT_PREFIX: string;
     readonly BOT_NAME: string;
+    readonly DEFAULT_LOCALE_PREF: string;
 
     constructor() {
         this.DEV_MODE = process.env.DEV === 'true' ? true : false;
@@ -24,5 +26,7 @@ export class Config {
         this.SILENT_LOGGING = process.env.SILENT_LOGGING === 'true' ? true : false;
         this.BOT_PREFIX = process.env.BOT_PREFIX ?? '-1';
         this.BOT_NAME = process.env.BOT_NAME ?? '-1';
+        this.DEFAULT_LOCALE_PREF = process.env.DEFAULT_LOCALE_PREF ?? 'en';
+        this.FILL_TEST_DATA = process.env.FILL_TEST_DAWTA === 'true' ? true : false;
     }
 }
