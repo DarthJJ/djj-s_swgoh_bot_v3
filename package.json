@@ -22,7 +22,8 @@
     "reflect-metadata": "^0.1.13",
     "sql.js": "^1.7.0",
     "sqlite3": "^5.0.10",
-    "trilogy": "^2.0.5"
+    "trilogy": "^2.0.5",
+    "tslog": "^3.3.3"
   },
   "devDependencies": {
     "@types/node": "^18.6.2",

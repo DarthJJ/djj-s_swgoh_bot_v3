@@ -4,10 +4,10 @@ import { DatabaseManager } from '../../database/databaseManager.js'
 import { injectable } from 'tsyringe';
 import { Player } from '../../models/player.js';
 import { Config } from "../../utils/config.js";
-import { executeCommand } from "../../utils/CommandHelper.js";
-import { interactionType } from "../../utils/CommandHelper.js";
 import { availableTranslations } from "../../i18n/I18nResolver.js";
 import { MessageCodes } from "../../i18n/languages/MessageCodes.js";
+import { executeCommand, interactionType } from "../../utils/commandHelper.js";
+
 
 
 @Discord()

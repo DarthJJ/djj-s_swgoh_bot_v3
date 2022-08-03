@@ -1,8 +1,8 @@
 import { ButtonInteraction, CommandInteraction, ModalSubmitInteraction } from "discord.js";
 import { RegisterError } from "../exceptions/registerError.js";
-import { DatabaseManager } from '../database/databaseManager';
+import { DatabaseManager } from '../database/databaseManager.js';
 import { container } from 'tsyringe';
-import { I18NResolver } from '../i18n/I18nResolver';
+import { I18NResolver } from "../i18n/I18nResolver.js";
 
 export type interactionType = CommandInteraction | ButtonInteraction;
 type botFunction = (interaction: interactionType, ...args: any) => Promise<number[]>;

@@ -41,11 +41,9 @@ export class I18NResolver {
         switch (countryCode) {
             case I18NResolver.nlKey:
                 return this.nl[messageCode];
-                break;
             case I18NResolver.enKey:
             default:
                 return this.en[messageCode];
-                break;
         }
     }
 }

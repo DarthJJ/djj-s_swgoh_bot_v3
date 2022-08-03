@@ -15,6 +15,8 @@ export class Config {
     readonly BOT_PREFIX: string;
     readonly BOT_NAME: string;
     readonly DEFAULT_LOCALE_PREF: string;
+    readonly LOG_PATH: string;
+    readonly LOG_TO_FILE: boolean;
 
     constructor() {
         this.DEV_MODE = process.env.DEV === 'true' ? true : false;
@@ -28,5 +30,7 @@ export class Config {
         this.BOT_NAME = process.env.BOT_NAME ?? '-1';
         this.DEFAULT_LOCALE_PREF = process.env.DEFAULT_LOCALE_PREF ?? 'en';
         this.FILL_TEST_DATA = process.env.FILL_TEST_DAWTA === 'true' ? true : false;
+        this.LOG_PATH = process.env.LOG_PATH ?? '-1';
+        this.LOG_TO_FILE = process.env.LOG_TO_FILE === 'true' ? true : false;
     }
 }
