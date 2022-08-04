@@ -23,10 +23,15 @@ export class Main {
   private _log: Log;
 
   constructor(database?: DatabaseManager, config?: Config, log?: Log) {
-    this._database = database!;
-    this._config = config!;
-    this._log = log!;
-    this.start();
+    try {
+      this._database = database!;
+      this._config = config!;
+      this._log = log!;
+      this.start();
+    } catch (err) {
+      this._log.Logger.error(err);
+      process.exit(-1);
+    }
   }
 
   async start(): Promise<void> {
@@ -52,8 +57,8 @@ export class Main {
       this._log.Logger.info("Bot Client ready");
       await this._client.guilds.fetch();
       await this._client.initApplicationCommands({
-        global: { log: false },
-        guild: { log: false },
+        global: { log: this._config.DEV_MODE ? false : true },
+        guild: { log: this._config.DEV_MODE ? true : false },
       });
       //Only to be executed on release
       if (!this._config.DEV_MODE) {
@@ -69,7 +74,7 @@ export class Main {
     });
 
     this._client.on("interactionCreate", (interaction) => {
-      console.log('interation received: ' + interaction);
+      this._log.Logger.silly(interaction.toJSON());
       this._client.executeInteraction(interaction);
     });
 

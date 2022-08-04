@@ -1,7 +1,7 @@
 import { singleton } from "tsyringe";
 import { ILogObject, Logger } from "tslog";
 import { Config } from './config.js';
-import { appendFileSync, existsSync, appendFile } from "fs";
+import { appendFile } from "fs";
 
 @singleton()
 export class Log {
@@ -11,6 +11,7 @@ export class Log {
     private readonly debugFile: string = "debug.json";
     private readonly errorFile: string = "error.json";
     private readonly infoFile: string = "info.json";
+    private readonly interactionFile: string = "interaction.json";
 
     constructor(config: Config) {
         this._config = config;
@@ -24,10 +25,12 @@ export class Log {
             printLogMessageInNewLine: true,
             displayLoggerName: false,
             displayTypes: true,
-            displayFilePath: "hidden"
+            displayFilePath: "hidden",
+            colorizePrettyLogs: true,
+
         });
         this._logger.attachTransport({
-            silly: this.logToVoid,
+            silly: this.logToInteraction,
             debug: this.logToDebug,
             trace: this.logToDebug,
             info: this.logToInfo,
@@ -56,6 +59,9 @@ export class Log {
                 console.error(err);
             }
         });
+    }
+    private logToInteraction = (LogObject: ILogObject) => {
+        this.writeToFile(JSON.stringify(LogObject), this.interactionFile);
     }
 
     private logToDebug = (LogObject: ILogObject) => {
