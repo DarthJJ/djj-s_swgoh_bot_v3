@@ -11,7 +11,9 @@ export class MessageCodes {
     static PURGE_NOTHING: number = 2003;
     static PURGE_WRONG_CHANNEL_TYPE: number = 2004;
     static PURGE_MAX_EXCEEDED: number = 2005;
-    ////Regsiter command
-    static REGISTER_ALREADY_DONE: number = 2006;
-    static REGISTER_FINSIED: number = 2007;
+    ////Register command
+    static REGISTER_ALREADY_DONE: number = 2011;
+    static REGISTER_FINSIED: number = 2012;
+    ////Update Language Pref Command
+    static LANGUAGE_PREF_UPDATED: number = 2021;
 }

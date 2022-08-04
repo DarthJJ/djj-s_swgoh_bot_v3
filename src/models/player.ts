@@ -28,6 +28,10 @@ export class Player implements iModel {
         return this._discordId;
     }
 
+    public set localePref(newLocalePref: string) {
+        this._localePref = newLocalePref;
+    }
+
     public toDbModel() {
         return {
             allycode: this._allycode,

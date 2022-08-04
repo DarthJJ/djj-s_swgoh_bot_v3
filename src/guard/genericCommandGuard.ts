@@ -38,8 +38,9 @@ export const PlayerRegistered: GuardFunction<any> = async (
     guardData
 ) => {
     let db: DatabaseManager = container.resolve(DatabaseManager);
-    let player = await db.players.getByDiscordId(interaction.user!.id)
+    let player = await db.players.getByDiscordId(interaction.member.user!.id)
     if (player) {
+        guardData.player = player;
         await next();
         return;
     }
@@ -54,7 +55,7 @@ export const CommandEnabled: GuardFunction<any> = async (
     guardData
 ) => {
     let command = CommandSecurityList().get(interaction.command.name)
-    if (command && command.enabled) {
+    if (command && (command.enabled || (command.ownerOverride && interaction.user!.id === new Config().BOT_ADMIN_ID))) {
         await next();
         return;
     }

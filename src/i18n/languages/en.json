@@ -32,11 +32,15 @@
         "value": "Purge limit exceeded, max is: "
     },
     {
-        "messageCode": 2006,
+        "messageCode": 2011,
         "value": "You are already registered"
     },
     {
-        "messageCode": 2007,
+        "messageCode": 2012,
         "value": "Registration complete"
+    },
+    {
+        "messageCode": 2021,
+        "value": "Your language pref has been updated!"
     }
 ]

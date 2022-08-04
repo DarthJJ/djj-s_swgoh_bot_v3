@@ -40,7 +40,9 @@ export class I18NResolver {
     ) {
         switch (countryCode) {
             case I18NResolver.nlKey:
-                return this.nl[messageCode];
+                if (this.nl[messageCode]) {
+                    return this.nl[messageCode];
+                }
             case I18NResolver.enKey:
             default:
                 return this.en[messageCode];
