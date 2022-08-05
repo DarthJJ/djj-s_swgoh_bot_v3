@@ -23,7 +23,7 @@ export class UserSetup {
 
     @Slash(CommandList.REGISTER)
     @Category("Profile")
-    @Guard(CommandEnabled)
+    @Guard()
     async register(
         @SlashOption("allycode", {
             description: "Your SWGOH allycode, format <XXXXXXXXX>",
@@ -50,7 +50,7 @@ export class UserSetup {
 
     @Slash(CommandList.CHANGE_LANGEUAGE_PREF)
     @Category("Profile")
-    @Guard(CommandEnabled, PlayerRegistered)
+    @Guard(PlayerRegistered)
     async changeLanguage(
         @SlashChoice(...(Object.keys(availableTranslations) as Array<keyof typeof availableTranslations>).map(key => ({ name: key, value: availableTranslations[key] })))
         @SlashOption("language", {
@@ -65,6 +65,16 @@ export class UserSetup {
     ): Promise<void> {
         executeCommand(this.changeLanguageImpl, interaction, true, guardData.player, language);
     }
+    @Slash(CommandList.DELETE_ACCOUNT)
+    @Category("Profile")
+    @Guard(PlayerRegistered)
+    async deleteAccount(
+        interaction: CommandInteraction,
+        client: Client,
+        guardData: { player: Player }
+    ): Promise<void> {
+
+    }
 
     async changeLanguageImpl(interction: interactionType, database: DatabaseManager, player: Player, languagePref: string): Promise<number[]> {
         player.localePref = languagePref;
@@ -73,7 +83,7 @@ export class UserSetup {
     }
 
     async registerImpl(interaction: interactionType, database: DatabaseManager, allycode: number, languagePref: string): Promise<number[]> {
-        let player = await database.players.getByDiscordId(interaction.member?.user.id!);
+        let player = await database.players.getById(interaction.member?.user.id!);
         if (player) {
             return [MessageCodes.REGISTER_ALREADY_DONE, MessageCodes.ENJOY_USING_BOT];
         }

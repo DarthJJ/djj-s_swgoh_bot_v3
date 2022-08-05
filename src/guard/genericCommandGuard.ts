@@ -1,8 +1,9 @@
-import { GuardFunction } from 'discordx';
+import { ArgsOf, GuardFunction, SimpleCommandMessage } from 'discordx';
 import { container } from 'tsyringe';
 import { Config } from '../utils/config.js';
 import { CommandSecurityList } from '../commands/metaData/commandSecurityList.js';
 import { DatabaseManager } from '../database/databaseManager.js';
+import { ButtonInteraction, CommandInteraction, Message, MessageReaction, SelectMenuInteraction, VoiceState } from 'discord.js';
 
 export const Admin: GuardFunction<any> = async (
     interaction,
@@ -38,7 +39,7 @@ export const PlayerRegistered: GuardFunction<any> = async (
     guardData
 ) => {
     let db: DatabaseManager = container.resolve(DatabaseManager);
-    let player = await db.players.getByDiscordId(interaction.member.user!.id)
+    let player = await db.players.getById(interaction.member.user!.id)
     if (player) {
         guardData.player = player;
         await next();
@@ -61,6 +62,36 @@ export const CommandEnabled: GuardFunction<any> = async (
     }
     await interaction.reply("```This command is not enabled.```");
 }
+
+export const NotBot: GuardFunction<
+    | ArgsOf<"messageCreate" | "messageReactionAdd" | "voiceStateUpdate">
+    | CommandInteraction
+    | SelectMenuInteraction
+    | ButtonInteraction
+    | SimpleCommandMessage
+> = async (arg, client, next, guardData) => {
+    const argObj = arg instanceof Array ? arg[0] : arg;
+    const user =
+        argObj instanceof CommandInteraction
+            ? argObj.user
+            : argObj instanceof MessageReaction
+                ? argObj.message.author
+                : argObj instanceof VoiceState
+                    ? argObj.member?.user
+                    : argObj instanceof Message
+                        ? argObj.author
+                        : argObj instanceof SimpleCommandMessage
+                            ? argObj.message.author
+                            : argObj instanceof CommandInteraction ||
+                                argObj instanceof SelectMenuInteraction ||
+                                argObj instanceof ButtonInteraction
+                                ? argObj.member?.user
+                                : argObj.message.author;
+    if (!user?.bot) {
+        guardData.message = "the NotBot guard passed";
+        await next();
+    }
+};
 
 export const CountryCode: GuardFunction<any> = async (
     interaction,

@@ -23,11 +23,7 @@ export class PlayerTable implements iTable<Player>{
         }
     };
 
-    async getById(id: Number): Promise<Player> {
-        throw new Error('Method not implemented.');
-    }
-
-    async getByDiscordId(id: String): Promise<Player | null> {
+    async getById(id: string): Promise<Player | null> {
         try {
             const player = await this._dbModel.findOne({ discordId: id });
             if (!player) {
@@ -38,6 +34,10 @@ export class PlayerTable implements iTable<Player>{
             container.resolve(Log).Logger.error(exception);
             throw new DatabaseError("Something went wrong retrieving the player by discordID.", exception);
         }
+    }
+
+    async delete(id: number): Promise<void> {
+        throw new Error("Method not implemented");
     }
 
     async save(object: Player): Promise<void> {

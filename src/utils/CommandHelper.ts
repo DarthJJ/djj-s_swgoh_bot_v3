@@ -19,7 +19,7 @@ export async function executeCommand(func: botFunction | botFunctionWithDb, inte
         } else {
             result = await func.call(undefined, interaction, ...args);
         }
-        const player = await db.players.getByDiscordId(interaction.member?.user.id!);
+        const player = await db.players.getById(interaction.member?.user.id!);
         const localePef = player?.localePref!;
 
         botResponse(interaction, localePef, result); //to be extended if modals or anything will be sent
