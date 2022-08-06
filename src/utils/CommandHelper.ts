@@ -29,7 +29,6 @@ export async function executeCommand(func: botFunction | botFunctionWithDb, inte
       return;
     }
     await interaction.editReply('An error occurred, please try again or contact the bot dev.');
-
   }
 }
 

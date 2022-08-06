@@ -1,30 +1,31 @@
+import { Allycode } from './allycode.js';
 import { iModel } from './iModel';
 export class Player implements iModel {
-    private _allycode: number;
     private _discordId: string;
+    private _allycode: Allycode[];
     private _name: string;
     private _localePref: string;
 
-    constructor(allycode: number, name: string, localePref: string, discordId?: string) {
-        this._allycode = allycode;
+    constructor(discordId: string, name: string, localePref: string, allycodes?: Allycode[]) {
+        this._allycode = allycodes ?? new Array();
         this._name = name;
         this._localePref = localePref;
         this._discordId = discordId ? discordId : "-1";
     }
 
-    public get allycode() {
+    public get allycode(): Allycode[] {
         return this._allycode;
     }
 
-    public get name() {
+    public get name(): string {
         return this._name;
     }
 
-    public get localePref() {
+    public get localePref(): string {
         return this._localePref;
     }
 
-    public get discordId() {
+    public get discordId(): string {
         return this._discordId;
     }
 
@@ -32,12 +33,11 @@ export class Player implements iModel {
         this._localePref = newLocalePref;
     }
 
-    public toDbModel() {
+    public toDbModel(): object {
         return {
-            allycode: this._allycode,
+            discordId: this._discordId,
             name: this._name,
             localePref: this._localePref,
-            discordId: this._discordId,
         }
     }
 }

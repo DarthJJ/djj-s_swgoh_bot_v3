@@ -11,6 +11,7 @@ import { Category } from "@discordx/utilities";
 import { CommandList } from "../metaData/commandList.js"
 import { executeCommand, interactionType } from "../../utils/CommandHelper.js";
 import { I18NResolver } from '../../i18n/I18nResolver.js';
+import { Allycode } from "../../models/allycode.js";
 
 
 
@@ -135,7 +136,7 @@ export class UserSetup {
         if (player) {
             return [MessageCodes.REGISTER_ALREADY_DONE, MessageCodes.ENJOY_USING_BOT];
         }
-        player = new Player(allycode, interaction.user.username, languagePref, interaction.user.id);
+        player = new Player(interaction.member?.user.id!, interaction.user.username, languagePref, [new Allycode(allycode, interaction.member?.user.id!, true)]);
         await database.players.save(player);
         return [MessageCodes.REGISTER_FINSIED, MessageCodes.ENJOY_USING_BOT];
     }

@@ -29,7 +29,7 @@ export class Config {
         this.BOT_PREFIX = process.env.BOT_PREFIX ?? '-1';
         this.BOT_NAME = process.env.BOT_NAME ?? '-1';
         this.DEFAULT_LOCALE_PREF = process.env.DEFAULT_LOCALE_PREF ?? 'en';
-        this.FILL_TEST_DATA = process.env.FILL_TEST_DAWTA === 'true' ? true : false;
+        this.FILL_TEST_DATA = process.env.FILL_TEST_DATA === 'true' ? true : false;
         this.LOG_PATH = process.env.LOG_PATH ?? '-1';
         this.LOG_TO_FILE = process.env.LOG_TO_FILE === 'true' ? true : false;
     }
