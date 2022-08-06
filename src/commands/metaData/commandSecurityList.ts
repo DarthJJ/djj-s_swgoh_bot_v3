@@ -9,5 +9,7 @@ export const CommandSecurityList = (): Map<string, commandStatus> => {
     list.set(register.name, register);
     const changeLanguagePref = new commandStatus(CommandList.CHANGE_LANGEUAGE_PREF, true, true);
     list.set(changeLanguagePref.name, changeLanguagePref);
+    const deleteAccount = new commandStatus(CommandList.DELETE_ACCOUNT, true, true);
+    list.set(deleteAccount.name, deleteAccount);
     return list;
 }

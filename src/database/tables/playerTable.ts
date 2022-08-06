@@ -36,14 +36,19 @@ export class PlayerTable implements iTable<Player>{
         }
     }
 
-    async delete(id: number): Promise<void> {
-        throw new Error("Method not implemented");
+    async delete(id: string): Promise<void> {
+        try {
+            await this._dbModel.remove({ discordId: id })
+        } catch (exception: unknown) {
+            container.resolve(Log).Logger.error(exception);
+            throw new DatabaseError("Someting went wrong deleting the player account", exception);
+        }
     }
 
     async save(object: Player): Promise<void> {
         try {
             await this._dbModel.updateOrCreate({ allycode: object.allycode }, object.toDbModel());
-        } catch (exception) {
+        } catch (exception: unknown) {
             container.resolve(Log).Logger.error(exception);
             throw new DatabaseError("Something went wrong saving a player: " + object, exception);
         }

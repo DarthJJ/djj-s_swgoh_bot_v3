@@ -1,15 +1,16 @@
-import { Discord, Client, Guard, Slash, SlashChoice, SlashOption } from "discordx";
-import { ApplicationCommandOptionType, CommandInteraction, Interaction } from 'discord.js';
+import { Discord, Client, Guard, Slash, SlashChoice, SlashOption, ButtonComponent } from "discordx";
+import { ApplicationCommandOptionType, ButtonBuilder, ButtonStyle, CommandInteraction, ActionRowBuilder, MessageActionRowComponentBuilder, ButtonInteraction } from 'discord.js';
 import { DatabaseManager } from '../../database/databaseManager.js'
 import { injectable } from 'tsyringe';
 import { Player } from '../../models/player.js';
 import { Config } from "../../utils/config.js";
 import { availableTranslations } from "../../i18n/I18nResolver.js";
 import { MessageCodes } from "../../i18n/languages/MessageCodes.js";
-import { executeCommand, interactionType } from "../../utils/commandHelper.js";
-import { CommandEnabled, PlayerRegistered } from "../../guard/genericCommandGuard.js";
+import { PlayerRegistered } from "../../guard/genericCommandGuard.js";
 import { Category } from "@discordx/utilities";
 import { CommandList } from "../metaData/commandList.js"
+import { executeCommand, interactionType } from "../../utils/CommandHelper.js";
+import { I18NResolver } from '../../i18n/I18nResolver.js';
 
 
 
@@ -17,7 +18,7 @@ import { CommandList } from "../metaData/commandList.js"
 @injectable()
 export class UserSetup {
 
-    constructor(private _config: Config) {
+    constructor(private _config: Config, private _i18n: I18NResolver) {
 
     }
 
@@ -73,7 +74,54 @@ export class UserSetup {
         client: Client,
         guardData: { player: Player }
     ): Promise<void> {
+        await interaction.deferReply();
+        const confirmButton = new ButtonBuilder()
+            .setLabel(this._i18n.getTranslation(guardData.player.localePref, MessageCodes.REQUEST_CONFIRM))
+            .setStyle(ButtonStyle.Danger)
+            .setCustomId("confirm-account-deletion");
+        const cancelButton = new ButtonBuilder()
+            .setLabel(this._i18n.getTranslation(guardData.player.localePref, MessageCodes.REQUEST_CANCEL))
+            .setStyle(ButtonStyle.Success)
+            .setCustomId("cancel-account-deletion");
+        const row = new ActionRowBuilder<MessageActionRowComponentBuilder>()
+            .addComponents(confirmButton, cancelButton);
+        interaction.editReply({
+            components: [row],
+            content: this._i18n.getTranslation(guardData.player.localePref, MessageCodes.REQUEST_ARE_YOU_SURE)
+        });
+    }
 
+    @ButtonComponent('confirm-account-deletion')
+    @Guard(PlayerRegistered)
+    async confirmAccountDeletion(
+        interaction: ButtonInteraction,
+        client: Client,
+        guardData: { player: Player }
+    ): Promise<void> {
+        await interaction.message.edit({
+            components: [],
+            content: this._i18n.getTranslation(guardData.player.localePref, MessageCodes.PLEASE_WAIT)
+        })
+        executeCommand(this.deleteAccountImpl, interaction, true, guardData.player);
+    }
+
+    @ButtonComponent("cancel-account-deletion")
+    @Guard(PlayerRegistered)
+    async cancelAccountDeletion(
+        interaction: ButtonInteraction,
+        client: Client,
+        guardData: { player: Player }
+    ): Promise<void> {
+        await await interaction.message.edit({
+            components: [],
+            content: this._i18n.getTranslation(guardData.player.localePref, MessageCodes.REQUEST_CANCELLED)
+        });
+    }
+
+    async deleteAccountImpl(interaction: interactionType, database: DatabaseManager, player: Player): Promise<number[]> {
+        console.log("test");
+        await database.players.delete(player.discordId);
+        return [MessageCodes.DELETE_ACCOUNT_FINISHED];
     }
 
     async changeLanguageImpl(interction: interactionType, database: DatabaseManager, player: Player, languagePref: string): Promise<number[]> {

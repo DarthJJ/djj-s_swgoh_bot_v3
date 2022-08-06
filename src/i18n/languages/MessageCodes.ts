@@ -1,9 +1,12 @@
 export class MessageCodes {
     //1xxx = Generic
     static PLEASE_WAIT: number = 1001;
-    static MESSAGE_SELF_DELETE_3_SEC: number = 1002
-    static ENJOY_USING_BOT: number = 1003
-
+    static MESSAGE_SELF_DELETE_3_SEC: number = 1002;
+    static ENJOY_USING_BOT: number = 1003;
+    static REQUEST_CANCELLED: number = 1004;
+    static REQUEST_CONFIRM: number = 1005;
+    static REQUEST_CANCEL: number = 1006;
+    static REQUEST_ARE_YOU_SURE: number = 1007;
     //2xxx = Command specific
     ////Purge command
     static PURGE_STARTED: number = 2001;
@@ -16,4 +19,6 @@ export class MessageCodes {
     static REGISTER_FINSIED: number = 2012;
     ////Update Language Pref Command
     static LANGUAGE_PREF_UPDATED: number = 2021;
+    ////Delete Command
+    static DELETE_ACCOUNT_FINISHED: number = 2031;
 }

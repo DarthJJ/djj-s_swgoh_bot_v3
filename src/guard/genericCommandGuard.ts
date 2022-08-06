@@ -55,8 +55,12 @@ export const CommandEnabled: GuardFunction<any> = async (
     next,
     guardData
 ) => {
+    if (interaction instanceof ButtonInteraction) {
+        await next();
+        return;
+    }
     let command = CommandSecurityList().get(interaction.command.name)
-    if (command && (command.enabled || (command.ownerOverride && interaction.user!.id === new Config().BOT_ADMIN_ID))) {
+    if (command && (command.enabled || (command.ownerOverride && interaction.member.user!.id === new Config().BOT_ADMIN_ID))) {
         await next();
         return;
     }

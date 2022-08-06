@@ -12,6 +12,18 @@
         "value": "Enjoy using the bot!"
     },
     {
+        "messageCode": 1004,
+        "value": "Request cancelled"
+    },
+    {
+        "messageCode": 1005,
+        "value": "Please confirm your request!"
+    },
+    {
+        "messageCode": 1006,
+        "value": "Cancel Request"
+    },
+    {
         "messageCode": 2001,
         "value": "Deletion started"
     },
@@ -42,5 +54,9 @@
     {
         "messageCode": 2021,
         "value": "Your language pref has been updated!"
+    },
+    {
+        "messageCode": 2031,
+        "value": "Your account has been deleted, goodbye"
     }
 ]
