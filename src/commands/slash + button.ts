@@ -1,16 +1,5 @@
-import type {
-  ButtonInteraction,
-  CommandInteraction,
-  GuildMember,
-  MessageActionRowComponentBuilder,
-  User,
-} from "discord.js";
-import {
-  ActionRowBuilder,
-  ApplicationCommandOptionType,
-  ButtonBuilder,
-  ButtonStyle,
-} from "discord.js";
+import type { ButtonInteraction, CommandInteraction, GuildMember, MessageActionRowComponentBuilder, User } from "discord.js";
+import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonStyle } from "discord.js";
 import { ButtonComponent, Discord, Slash, SlashOption } from "discordx";
 
 @Discord()
@@ -23,16 +12,9 @@ export class Example {
   ): Promise<void> {
     await interaction.deferReply();
 
-    const helloBtn = new ButtonBuilder()
-      .setLabel("Hello")
-      .setEmoji("👋")
-      .setStyle(ButtonStyle.Primary)
-      .setCustomId("hello-btn");
+    const helloBtn = new ButtonBuilder().setLabel("Hello").setEmoji("👋").setStyle(ButtonStyle.Primary).setCustomId("hello-btn");
 
-    const row =
-      new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
-        helloBtn
-      );
+    const row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(helloBtn);
 
     interaction.editReply({
       components: [row],

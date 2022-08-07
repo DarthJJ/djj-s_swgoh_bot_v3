@@ -1,7 +1,4 @@
-import type {
-  MessageContextMenuCommandInteraction,
-  UserContextMenuCommandInteraction,
-} from "discord.js";
+import type { MessageContextMenuCommandInteraction, UserContextMenuCommandInteraction } from "discord.js";
 import { ApplicationCommandType } from "discord.js";
 import { ContextMenu, Discord } from "discordx";
 

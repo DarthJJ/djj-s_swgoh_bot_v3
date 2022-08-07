@@ -3,12 +3,7 @@ import { Config } from "./utils/config.js";
 import { dirname, importx } from "@discordx/importer";
 import { container, autoInjectable } from "tsyringe";
 import { ActivityType, IntentsBitField } from "discord.js";
-import {
-  Client,
-  Discord,
-  DIService,
-  tsyringeDependencyRegistryEngine,
-} from "discordx";
+import { Client, Discord, DIService, tsyringeDependencyRegistryEngine } from "discordx";
 import { DatabaseManager } from "./database/databaseManager.js";
 import { Log } from "./utils/log.js";
 import { CommandEnabled, NotBot } from "./guard/genericCommandGuard.js";
@@ -43,17 +38,11 @@ export class Main {
 
   async start(): Promise<void> {
     this._log.Logger.info("Starting bot");
-    this._log.Logger.info(
-      "Bot will be started " + this._config.DEV_MODE
-        ? "DEV MODE"
-        : "RELEASE MODE"
-    );
+    this._log.Logger.info("Bot will be started " + this._config.DEV_MODE ? "DEV MODE" : "RELEASE MODE");
     this._client = new Client({
       guards: [NotBot, CommandEnabled], //To make sure only enabled commands are usable.
       botId: this._config.BOT_NAME,
-      botGuilds: this._config.DEV_MODE
-        ? [this._config.DEV_GUILD_ID!]
-        : undefined, //undefined == global command
+      botGuilds: this._config.DEV_MODE ? [this._config.DEV_GUILD_ID!] : undefined, //undefined == global command
       // Discord intents
       intents: [
         IntentsBitField.Flags.Guilds,

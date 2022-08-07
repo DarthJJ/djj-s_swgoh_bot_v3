@@ -7,30 +7,19 @@ import { Discord, Slash, SlashGroup, SlashOption } from "discordx";
 export class GroupExample {
   @Slash("add")
   @SlashGroup("maths", "testing")
-  add(
-    @SlashOption("x", { description: "x value" }) x: number,
-    @SlashOption("y", { description: "y value" }) y: number,
-    interaction: CommandInteraction
-  ): void {
+  add(@SlashOption("x", { description: "x value" }) x: number, @SlashOption("y", { description: "y value" }) y: number, interaction: CommandInteraction): void {
     interaction.reply(String(x + y));
   }
 
   @Slash("multiply")
   @SlashGroup("maths", "testing")
-  multiply(
-    @SlashOption("x", { description: "x value" }) x: number,
-    @SlashOption("y", { description: "y value" }) y: number,
-    interaction: CommandInteraction
-  ): void {
+  multiply(@SlashOption("x", { description: "x value" }) x: number, @SlashOption("y", { description: "y value" }) y: number, interaction: CommandInteraction): void {
     interaction.reply(String(x * y));
   }
 
   @Slash("root")
   @SlashGroup("testing")
-  root(
-    @SlashOption("text") text: string,
-    interaction: CommandInteraction
-  ): void {
+  root(@SlashOption("text") text: string, interaction: CommandInteraction): void {
     interaction.reply(text);
   }
 }

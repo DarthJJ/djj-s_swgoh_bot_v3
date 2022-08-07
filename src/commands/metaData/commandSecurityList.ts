@@ -7,17 +7,11 @@ export const CommandSecurityList = (): Map<string, commandStatus> => {
   list.set(purge.name, purge);
   const register = new commandStatus(CommandList.REGISTER, true, true);
   list.set(register.name, register);
-  const changeLanguagePref = new commandStatus(
-    CommandList.CHANGE_LANGEUAGE_PREF,
-    true,
-    true
-  );
+  const changeLanguagePref = new commandStatus(CommandList.CHANGE_LANGEUAGE_PREF, true, true);
   list.set(changeLanguagePref.name, changeLanguagePref);
-  const deleteAccount = new commandStatus(
-    CommandList.DELETE_ACCOUNT,
-    true,
-    true
-  );
+  const deleteAccount = new commandStatus(CommandList.DELETE_ACCOUNT, true, true);
   list.set(deleteAccount.name, deleteAccount);
+  const update = new commandStatus(CommandList.UPDATE, true, true);
+  list.set(update.name, update);
   return list;
 };

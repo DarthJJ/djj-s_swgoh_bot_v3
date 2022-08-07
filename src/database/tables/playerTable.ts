@@ -15,9 +15,7 @@ export class PlayerTable implements iTable<Player> {
   constructor(database: Trilogy) {
     this._database = database;
     this._playerModel = this._database.getModel(PlayerTable.playerTableName);
-    this._allycodeModel = this._database.getModel(
-      PlayerTable.allycodeTableName
-    );
+    this._allycodeModel = this._database.getModel(PlayerTable.allycodeTableName);
   }
 
   public static playerTableSQL(): SchemaRaw<LooseObject> {
@@ -49,18 +47,10 @@ export class PlayerTable implements iTable<Player> {
       const mappedAllycodes = allycodes.map((allycode) => {
         return new Allycode(allycode[0], allycode[1], allycode[2]);
       });
-      return new Player(
-        player.discordId,
-        player.name,
-        player.localePref,
-        mappedAllycodes
-      );
+      return new Player(player.discordId, player.name, player.localePref, mappedAllycodes);
     } catch (exception: unknown) {
       container.resolve(Log).Logger.error(exception);
-      throw new DatabaseError(
-        "Something went wrong retrieving the player by discordID.",
-        exception
-      );
+      throw new DatabaseError("Something went wrong retrieving the player by discordID.", exception);
     }
   }
 
@@ -70,32 +60,20 @@ export class PlayerTable implements iTable<Player> {
       await this._allycodeModel.remove({ discordId: id });
     } catch (exception: unknown) {
       container.resolve(Log).Logger.error(exception);
-      throw new DatabaseError(
-        "Someting went wrong deleting the player account",
-        exception
-      );
+      throw new DatabaseError("Someting went wrong deleting the player account", exception);
     }
   }
 
   async save(object: Player): Promise<void> {
     try {
-      await this._playerModel.updateOrCreate(
-        { discordId: object.discordId },
-        object.toDbModel()
-      );
+      await this._playerModel.updateOrCreate({ discordId: object.discordId }, object.toDbModel());
       for (let i = 0; i < object.allycode.length; i++) {
         const allycode = object.allycode[i];
-        await this._allycodeModel.updateOrCreate(
-          { discordId: object.discordId, allycode: allycode.allycode },
-          allycode.toDbModel()
-        );
+        await this._allycodeModel.updateOrCreate({ discordId: object.discordId, allycode: allycode.allycode }, allycode.toDbModel());
       }
     } catch (exception: unknown) {
       container.resolve(Log).Logger.error(exception);
-      throw new DatabaseError(
-        "Something went wrong saving a player: " + object,
-        exception
-      );
+      throw new DatabaseError("Something went wrong saving a player: " + object, exception);
     }
   }
 }

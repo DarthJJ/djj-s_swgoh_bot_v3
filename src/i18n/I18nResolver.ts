@@ -26,8 +26,7 @@ export class I18NResolver {
   getTranslations(countryCode: string, ...messageCode: number[]) {
     let returnString = "";
     for (let index = 0; index < messageCode.length; index++) {
-      returnString +=
-        this.getTranslation(countryCode, messageCode[index]) + " ";
+      returnString += this.getTranslation(countryCode, messageCode[index]) + " ";
     }
     return returnString;
   }

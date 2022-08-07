@@ -26,14 +26,8 @@ export class DatabaseManager {
     if (RECREATE_DB) {
       await this.updateDb();
     }
-    await this._database.model(
-      PlayerTable.playerTableName,
-      PlayerTable.playerTableSQL()
-    );
-    await this._database.model(
-      PlayerTable.allycodeTableName,
-      PlayerTable.allycodePlayerTableSQL()
-    );
+    await this._database.model(PlayerTable.playerTableName, PlayerTable.playerTableSQL());
+    await this._database.model(PlayerTable.allycodeTableName, PlayerTable.allycodePlayerTableSQL());
     //await this._database.model(AbilityTable.tableName, AbilityTable.abilityTableSQL());
     this.initTables();
     if (FILL_TEST_DATA) {
@@ -45,22 +39,13 @@ export class DatabaseManager {
     this._players = new PlayerTable(this._database);
   }
   private async updateDb() {
-    await this._database.knex.schema.dropTableIfExists(
-      PlayerTable.playerTableName
-    );
-    await this._database.knex.schema.dropTableIfExists(
-      PlayerTable.allycodeTableName
-    );
+    await this._database.knex.schema.dropTableIfExists(PlayerTable.playerTableName);
+    await this._database.knex.schema.dropTableIfExists(PlayerTable.allycodeTableName);
     await this._database.knex.schema.dropTableIfExists(AbilityTable.tableName);
   }
 
   private async fillTestData() {
-    const player: Player = new Player(
-      "405842805441822721",
-      "Darth JarJar",
-      "en",
-      [new Allycode(393333993, "405842805441822721", true)]
-    );
+    const player: Player = new Player("405842805441822721", "Darth JarJar", "en", [new Allycode(393333993, "405842805441822721", true)]);
     await this._players.save(player);
   }
 

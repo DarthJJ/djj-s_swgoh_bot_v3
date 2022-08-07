@@ -52,8 +52,7 @@ export class Log {
   };
 
   private writeToFile = (message: string, filename: string) => {
-    const filepath: string =
-      "./" + this._logPath + "/" + this.getDate() + "_" + filename;
+    const filepath: string = "./" + this._logPath + "/" + this.getDate() + "_" + filename;
     appendFile(filepath, message + "\n", (err) => {
       if (err) {
         console.error(err);

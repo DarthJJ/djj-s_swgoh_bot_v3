@@ -6,12 +6,7 @@ export class Player implements iModel {
   private _name: string;
   private _localePref: string;
 
-  constructor(
-    discordId: string,
-    name: string,
-    localePref: string,
-    allycodes?: Allycode[]
-  ) {
+  constructor(discordId: string, name: string, localePref: string, allycodes?: Allycode[]) {
     this._allycode = allycodes ?? [];
     this._name = name;
     this._localePref = localePref;

@@ -1,8 +1,4 @@
-import type {
-  CommandInteraction,
-  MessageActionRowComponentBuilder,
-  SelectMenuInteraction,
-} from "discord.js";
+import type { CommandInteraction, MessageActionRowComponentBuilder, SelectMenuInteraction } from "discord.js";
 import { ActionRowBuilder, SelectMenuBuilder } from "discord.js";
 import { Discord, SelectMenuComponent, Slash } from "discordx";
 
@@ -26,11 +22,7 @@ export class Example {
       return interaction.followUp("invalid role id, select again");
     }
 
-    await interaction.followUp(
-      `you have selected role: ${
-        roles.find((r) => r.value === roleValue)?.label
-      }`
-    );
+    await interaction.followUp(`you have selected role: ${roles.find((r) => r.value === roleValue)?.label}`);
     return;
   }
 
@@ -39,15 +31,10 @@ export class Example {
     await interaction.deferReply();
 
     // create menu for roles
-    const menu = new SelectMenuBuilder()
-      .addOptions(roles)
-      .setCustomId("role-menu");
+    const menu = new SelectMenuBuilder().addOptions(roles).setCustomId("role-menu");
 
     // create a row for message actions
-    const buttonRow =
-      new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
-        menu
-      );
+    const buttonRow = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(menu);
 
     // send it
     interaction.editReply({
