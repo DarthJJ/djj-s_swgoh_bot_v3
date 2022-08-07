@@ -1,3 +1,3 @@
 export interface iModel {
-    toDbModel(): object;
+  toDbModel(): object;
 }

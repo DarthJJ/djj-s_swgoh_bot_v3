@@ -25,7 +25,6 @@ export class GroupExample {
     interaction.reply(String(x * y));
   }
 
-
   @Slash("root")
   @SlashGroup("testing")
   root(

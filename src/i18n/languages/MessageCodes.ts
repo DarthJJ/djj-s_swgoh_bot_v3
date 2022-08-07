@@ -1,24 +1,24 @@
 export class MessageCodes {
-    //1xxx = Generic
-    static PLEASE_WAIT: number = 1001;
-    static MESSAGE_SELF_DELETE_3_SEC: number = 1002;
-    static ENJOY_USING_BOT: number = 1003;
-    static REQUEST_CANCELLED: number = 1004;
-    static REQUEST_CONFIRM: number = 1005;
-    static REQUEST_CANCEL: number = 1006;
-    static REQUEST_ARE_YOU_SURE: number = 1007;
-    //2xxx = Command specific
-    ////Purge command
-    static PURGE_STARTED: number = 2001;
-    static PURGE_FINISHED: number = 2002;
-    static PURGE_NOTHING: number = 2003;
-    static PURGE_WRONG_CHANNEL_TYPE: number = 2004;
-    static PURGE_MAX_EXCEEDED: number = 2005;
-    ////Register command
-    static REGISTER_ALREADY_DONE: number = 2011;
-    static REGISTER_FINSIED: number = 2012;
-    ////Update Language Pref Command
-    static LANGUAGE_PREF_UPDATED: number = 2021;
-    ////Delete Command
-    static DELETE_ACCOUNT_FINISHED: number = 2031;
+  //1xxx = Generic
+  static PLEASE_WAIT = 1001;
+  static MESSAGE_SELF_DELETE_3_SEC = 1002;
+  static ENJOY_USING_BOT = 1003;
+  static REQUEST_CANCELLED = 1004;
+  static REQUEST_CONFIRM = 1005;
+  static REQUEST_CANCEL = 1006;
+  static REQUEST_ARE_YOU_SURE = 1007;
+  //2xxx = Command specific
+  ////Purge command
+  static PURGE_STARTED = 2001;
+  static PURGE_FINISHED = 2002;
+  static PURGE_NOTHING = 2003;
+  static PURGE_WRONG_CHANNEL_TYPE = 2004;
+  static PURGE_MAX_EXCEEDED = 2005;
+  ////Register command
+  static REGISTER_ALREADY_DONE = 2011;
+  static REGISTER_FINSIED = 2012;
+  ////Update Language Pref Command
+  static LANGUAGE_PREF_UPDATED = 2021;
+  ////Delete Command
+  static DELETE_ACCOUNT_FINISHED = 2031;
 }

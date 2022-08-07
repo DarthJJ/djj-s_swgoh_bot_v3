@@ -1,6 +1,6 @@
 export class CommandList {
-    public static PURGE: string = "purge";
-    public static REGISTER: string = "register";
-    public static CHANGE_LANGEUAGE_PREF: string = "change-language";
-    public static DELETE_ACCOUNT: string = "delete-account";
+  public static PURGE = "purge";
+  public static REGISTER = "register";
+  public static CHANGE_LANGEUAGE_PREF = "change-language";
+  public static DELETE_ACCOUNT = "delete-account";
 }
