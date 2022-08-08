@@ -1,47 +1,21 @@
 import { Allycode } from "./allycode.js";
-import { iPlayer } from "./interfaces/iPlayer.js";
-import { Column, Table } from "@wwwouter/typed-knex";
+import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
 
-@Table("players")
-export class Player implements iPlayer {
-  @Column({ primary: true })
-  private _discordId: string;
-  private _allycode: Allycode[];
-  private _name: string;
-  private _localePref: string;
+@Entity({ name: "players" })
+export class Player {
+  @PrimaryColumn({ name: "discordId" })
+  public discordId: string;
+  //@OneToMany(type => Allycode)
+  public allycode: Allycode[];
+  @Column({ name: "name" })
+  public name: string;
+  @Column({ name: "localePref" })
+  public localePref: string;
 
   constructor(discordId: string, name: string, localePref: string, allycodes?: Allycode[]) {
-    this._allycode = allycodes ?? [];
-    this._name = name;
-    this._localePref = localePref;
-    this._discordId = discordId ? discordId : "-1";
-  }
-
-  public get allycode(): Allycode[] {
-    return this._allycode;
-  }
-
-  public get name(): string {
-    return this._name;
-  }
-
-  public get localePref(): string {
-    return this._localePref;
-  }
-
-  public set localePref(newLocalePref: string) {
-    this._localePref = newLocalePref;
-  }
-
-  public get discordId(): string {
-    return this._discordId;
-  }
-
-  public toDbModel(): object {
-    return {
-      discordId: this._discordId,
-      name: this._name,
-      localePref: this._localePref,
-    };
+    this.allycode = allycodes ?? [];
+    this.name = name;
+    this.localePref = localePref;
+    this.discordId = discordId ? discordId : "-1";
   }
 }

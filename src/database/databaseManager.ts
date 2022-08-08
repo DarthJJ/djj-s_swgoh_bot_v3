@@ -1,52 +1,43 @@
 import { singleton } from "tsyringe";
 import { Config } from "../utils/config.js";
-import { PlayerTable } from "./tables/playerTable.js";
-import { AbilityTable } from "./tables/abilityTable.js";
-import Knex from "knex";
-import { TypedKnex } from "@wwwouter/typed-knex";
+import { DataSource, Repository } from "typeorm";
+import { Player } from "../models/player.js";
+import { PlayerDao } from "./daos/playerDao.js";
 
 @singleton()
 export class DatabaseManager {
-  //private _database: Trilogy;
-  private _players: PlayerTable;
-  private _abilities: AbilityTable;
-  private database: TypedKnex;
+  private database: DataSource;
+  private readonly entities = [Player];
+  private playerRepository: PlayerDao;
 
   constructor(config: Config) {
-    this.connectDb(config.DEV_MODE);
-    this.initialize(config.UPDATE_DB, config.RECREATE_DB, config.FILL_TEST_DATA);
+    this.initDb(config.DEV_MODE, config.RECREATE_DB, config.FILL_TEST_DATA);
   }
 
-  public get players(): PlayerTable {
-    return this._players;
+  public get players(): PlayerDao {
+    return this.playerRepository;
   }
 
-  public get abilities(): AbilityTable {
-    return this._abilities;
-  }
-
-  private initialize(UPDATE_DB: boolean, RECREATE_DB: boolean, FILL_TEST_DATA: boolean) {
-    // this.database.schema.createTable(PlayerTable.playerTableName, (table) => {
-    //   table.string("discordId").primary();
-    //   table.string("name").notNullable();
-    //   table.integer("allycode").unique();
-    // });
-  }
-
-  private connectDb(DEV_MODE: boolean) {
+  private async initDb(DEV_MODE: boolean, RECREATE_DB: boolean, FILL_TEST_DATA: boolean) {
     let dbName: string;
     if (DEV_MODE) {
       dbName = "./database_dev.db";
     } else {
       dbName = "./database.db";
     }
-    const knex = Knex({
-      client: "sqlite3",
-      connection: {
-        filename: dbName,
-        debug: DEV_MODE,
-      },
+    this.database = new DataSource({
+      type: "sqlite",
+      entities: this.entities,
+      database: dbName,
+      dropSchema: RECREATE_DB,
+      synchronize: RECREATE_DB,
+      logging: true,
     });
-    this.database = new TypedKnex(knex);
+    await this.database.initialize().catch((error) => console.error(error));
+    this.playerRepository = new PlayerDao(this.database.getRepository(Player));
+    if (FILL_TEST_DATA) {
+      var player = new Player("405842805441822721", "Darth JarJar", "en");
+      await this.database.manager.save(player);
+    }
   }
 }
