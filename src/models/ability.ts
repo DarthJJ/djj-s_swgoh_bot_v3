@@ -1,7 +1,6 @@
-import { iModel } from "./interfaces/iModel.js";
-import { Serializable } from "./serializable.js";
+import { Serializable } from "./modelHelpers/serializable.js";
 
-export class Ability extends Serializable implements iModel {
+export class Ability extends Serializable {
   private _base_id: string;
   private _name: string;
   private _image: string;

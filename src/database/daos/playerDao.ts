@@ -17,9 +17,11 @@ export class PlayerDao implements iTable<Player> {
 
   async getById(id: string): Promise<Player | null> {
     try {
-      const player = await this._database.findOneBy({
-        discordId: id,
-      });
+      // const player = await this._database.findOneBy({
+      //   discordId: id,
+      // });
+
+      const player = await this._database.createQueryBuilder("players").innerJoinAndSelect("player.allycode", "allycode").where({ disordId: id }).getOne();
       if (!player) {
         return null;
       }
