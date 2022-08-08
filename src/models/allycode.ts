@@ -1,4 +1,4 @@
-import { iModel } from "./iModel.js";
+import { iModel } from "./interfaces/iModel.js";
 
 export class Allycode implements iModel {
   private _allycode: number;

@@ -1,5 +1,6 @@
 import { singleton } from "tsyringe";
 import { HttpError } from "../exceptions/httpError.js";
+import { Ability } from "../models/ability.js";
 
 @singleton()
 export class HttpFetcher {
@@ -12,16 +13,22 @@ export class HttpFetcher {
   private readonly glChecklistEndpoint: string = this.baseApiUrl + "gl-checklist/";
   private readonly playerModEndpoint: string = this.baseApiUrl + "player/{0}/mods/"; //<-- override {0} with allycode
 
-  getAbilities<T>(): Promise<T> {
-    return this.apiCall(this.abilitiesEndpoint);
+  async getAbilities(): Promise<Ability[]> {
+    // return await this.apiCall<Ability[]>(this.abilitiesEndpoint);
+    const data = await this.apiCall(this.abilitiesEndpoint);
+    const returnData: Ability[] = [];
+    for (let index in data) {
+      returnData.push(new Ability().fillFromJSON(data[index]));
+    }
+    return returnData;
   }
 
-  private apiCall<T>(url: string): Promise<T> {
-    return fetch(url).then((response) => {
+  private async apiCall(url: string): Promise<object[]> {
+    return await fetch(url).then((response) => {
       if (!response.ok) {
         throw new HttpError(response.statusText, null);
       }
-      return response.json() as Promise<T>;
+      return response.json();
     });
   }
 }

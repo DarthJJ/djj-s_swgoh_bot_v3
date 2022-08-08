@@ -1,4 +1,7 @@
-export class Ability {
+import { iModel } from "./interfaces/iModel.js";
+import { Serializable } from "./serializable.js";
+
+export class Ability extends Serializable implements iModel {
   private _base_id: string;
   private _name: string;
   private _image: string;
@@ -28,7 +31,7 @@ export class Ability {
   }
 
   public set name(name: string) {
-    this._name = this.name;
+    this._name = name;
   }
 
   public get image(): string {
@@ -133,5 +136,25 @@ export class Ability {
 
   public set omicron_battle_types(omicron_battle_types: string[]) {
     this._omicron_battle_types = omicron_battle_types;
+  }
+
+  toDbModel(): object {
+    return {
+      baseId: this._base_id,
+      name: this._name,
+      image: this._image,
+      url: this._url,
+      tierMax: this._tier_max,
+      isZeta: this._is_zeta,
+      isOmega: this._is_omega,
+      isOmicron: this._is_omicron,
+      description: this._description,
+      combatType: this._combat_type,
+      omicronMode: this._omicron_mode,
+      type: this._type,
+      characterBaseId: this._character_base_id,
+      shipBaseId: this._ship_base_id,
+      omicronBattleTypes: this._omicron_battle_types ? this._omicron_battle_types.join(";") : this._omicron_battle_types,
+    };
   }
 }

@@ -1,6 +1,7 @@
 import { Allycode } from "./allycode.js";
-import { iModel } from "./iModel";
-export class Player implements iModel {
+import { iPlayer } from "./interfaces/iPlayer.js";
+
+export class Player implements iPlayer {
   private _discordId: string;
   private _allycode: Allycode[];
   private _name: string;

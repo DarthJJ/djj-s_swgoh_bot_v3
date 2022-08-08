@@ -6,6 +6,7 @@ dotenv.config();
 export class Config {
   readonly DEV_MODE: boolean;
   readonly RECREATE_DB: boolean;
+  readonly UPDATE_DB: boolean;
   readonly FILL_TEST_DATA: boolean;
   readonly BOT_TOKEN: string;
   readonly BOT_ADMIN_ID: string;
@@ -21,6 +22,7 @@ export class Config {
   constructor() {
     this.DEV_MODE = process.env.DEV === "true" ? true : false;
     this.RECREATE_DB = process.env.RECREATE_DB === "true" ? true : false;
+    this.UPDATE_DB = process.env.UPDATE_DB === "true" ? true : false;
     this.BOT_TOKEN = process.env.BOT_TOKEN ?? "-1";
     this.BOT_ADMIN_ID = process.env.BOT_ADMIN_ID ?? "-1";
     this.DEV_GUILD_ID = process.env.GUILD_ID ?? "-1";

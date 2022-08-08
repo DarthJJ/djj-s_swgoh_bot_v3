@@ -3,10 +3,10 @@
 import { Category, Description } from "@discordx/utilities";
 import { ApplicationCommandOptionType, CommandInteraction } from "discord.js";
 import { Discord, Guard, Slash, SlashChoice, SlashOption, Client } from "discordx";
-import { injectable } from "tsyringe";
+import { injectable, container } from "tsyringe";
 import { DatabaseManager } from "../../database/databaseManager.js";
 import { CommandEnabled, CountryCode, PlayerRegistered, Admin } from "../../guard/genericCommandGuard.js";
-import { I18NResolver } from "../../i18n/I18nResolver";
+import { I18NResolver } from "../../i18n/I18nResolver.js";
 import { executeCommand, interactionType } from "../../utils/commandHelper.js";
 import { HttpFetcher } from "../../utils/httpFetcher.js";
 import { CommandList } from "../metaData/commandList.js";
@@ -17,12 +17,10 @@ import { CommandList } from "../metaData/commandList.js";
 export class SwgohUpdate {
   private _database: DatabaseManager;
   private _i18n: I18NResolver;
-  private _httpFetcher: HttpFetcher;
 
-  constructor(database: DatabaseManager, i18n: I18NResolver, httpFetcher: HttpFetcher) {
+  constructor(database: DatabaseManager, i18n: I18NResolver) {
     this._database = database;
     this._i18n = i18n;
-    this._httpFetcher = httpFetcher;
   }
 
   @Slash(CommandList.UPDATE)
@@ -44,9 +42,10 @@ export class SwgohUpdate {
   }
 
   async updateImpl(interaction: interactionType, database: DatabaseManager, toUpdate: string): Promise<number[]> {
-    this._httpFetcher.getAbilities().then((test) => {
-      console.log(test);
-    });
+    var abilityData = await container.resolve(HttpFetcher).getAbilities();
+    for (var ability of abilityData) {
+      //await database.abilities.save(ability);
+    }
     return [];
   }
 }

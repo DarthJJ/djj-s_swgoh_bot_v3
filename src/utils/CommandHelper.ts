@@ -1,6 +1,7 @@
-import { ButtonInteraction, CommandInteraction, ModalSubmitInteraction } from "discord.js";
-import { DatabaseManager } from '../database/databaseManager.js';
-import { container } from 'tsyringe';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ButtonInteraction, CommandInteraction } from "discord.js";
+import { DatabaseManager } from "../database/databaseManager.js";
+import { container } from "tsyringe";
 import { I18NResolver } from "../i18n/I18nResolver.js";
 import { Config } from "./config.js";
 
@@ -28,7 +29,7 @@ export async function executeCommand(func: botFunction | botFunctionWithDb, inte
       interaction.editReply("```" + exception + "```");
       return;
     }
-    await interaction.editReply('An error occurred, please try again or contact the bot dev.');
+    await interaction.editReply("An error occurred, please try again or contact the bot dev.");
   }
 }
 
@@ -87,7 +88,5 @@ export async function handleModalInteraction(func: modalReply, interaction: inte
     return handleException(e, interaction);
   }
 }
-
-﻿
  * 
  */

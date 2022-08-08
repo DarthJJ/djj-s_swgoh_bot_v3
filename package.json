@@ -21,10 +21,10 @@
     "discord.js": "^14.1.1",
     "discordx": "^11.0.3",
     "dotenv": "^16.0.1",
+    "knex": "^2.2.0",
     "reflect-metadata": "^0.1.13",
     "sql.js": "^1.7.0",
     "sqlite3": "^5.0.10",
-    "trilogy": "^2.0.5",
     "tslog": "^3.3.3"
   },
   "devDependencies": {
