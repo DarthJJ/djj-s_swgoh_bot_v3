@@ -2,16 +2,15 @@ import { singleton } from "tsyringe";
 import { Config } from "../utils/config.js";
 import { PlayerTable } from "./tables/playerTable.js";
 import { AbilityTable } from "./tables/abilityTable.js";
-import { Knex } from "knex";
-import knex from "knex";
+import * as Knex from "knex";
+import { TypedKnex } from "@wwwouter/typed-knex";
 
 @singleton()
 export class DatabaseManager {
   //private _database: Trilogy;
   private _players: PlayerTable;
   private _abilities: AbilityTable;
-  private knexConfig: Knex.Config;
-  private knexInstance: Knex;
+  private database;
 
   constructor(config: Config) {
     this.connectDb(config.DEV_MODE);
@@ -27,7 +26,7 @@ export class DatabaseManager {
   }
 
   private initialize(UPDATE_DB: boolean, RECREATE_DB: boolean, FILL_TEST_DATA: boolean) {
-    this.knexInstance.schema.createTable(PlayerTable.playerTableName, (table) => {
+    this.database.schema.createTable(PlayerTable.playerTableName, (table) => {
       table.string("discordId").primary();
       table.string("name").notNullable();
       table.integer("allycode").unique();
@@ -41,13 +40,12 @@ export class DatabaseManager {
     } else {
       dbName = "./database.db";
     }
-    this.knexConfig = {
+    this.database = Knex({
       client: "sqlite3",
       connection: {
         filename: dbName,
         debug: DEV_MODE,
       },
-    };
-    this.knexInstance = knex(this.knexConfig);
+    });
   }
 }
