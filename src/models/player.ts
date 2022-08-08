@@ -1,7 +1,10 @@
 import { Allycode } from "./allycode.js";
 import { iPlayer } from "./interfaces/iPlayer.js";
+import { Column, Table } from "@wwwouter/typed-knex";
 
+@Table("players")
 export class Player implements iPlayer {
+  @Column({ primary: true })
   private _discordId: string;
   private _allycode: Allycode[];
   private _name: string;
