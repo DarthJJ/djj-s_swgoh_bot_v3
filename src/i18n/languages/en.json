@@ -58,5 +58,9 @@
     {
         "messageCode": 2031,
         "value": "Your account has been deleted, goodbye"
+    },
+    {
+        "messageCode": 2041,
+        "value": "Update of SWGOH abilities has finished"
     }
 ]

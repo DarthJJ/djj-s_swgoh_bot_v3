@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { Category, Description } from '@discordx/utilities';
+import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
+import { Client, Discord, Guard, Slash, SlashChoice, SlashOption } from 'discordx';
+import { container, injectable } from 'tsyringe';
 
-import { Category, Description } from "@discordx/utilities";
-import { ApplicationCommandOptionType, CommandInteraction } from "discord.js";
-import { Discord, Guard, Slash, SlashChoice, SlashOption, Client } from "discordx";
-import { injectable, container } from "tsyringe";
-import { DatabaseManager } from "../../database/databaseManager.js";
-import { CommandEnabled, CountryCode, PlayerRegistered, Admin } from "../../guard/genericCommandGuard.js";
-import { I18NResolver } from "../../i18n/I18nResolver.js";
-import { executeCommand, interactionType } from "../../utils/commandHelper.js";
-import { HttpFetcher } from "../../utils/httpFetcher.js";
-import { CommandList } from "../metaData/commandList.js";
+import { DatabaseManager } from '../../database/databaseManager.js';
+import { Admin, CommandEnabled, CountryCode, PlayerRegistered } from '../../guard/genericCommandGuard.js';
+import { I18NResolver } from '../../i18n/I18nResolver.js';
+import { MessageCodes } from '../../i18n/languages/MessageCodes.js';
+import { executeCommand, interactionType } from '../../utils/commandHelper.js';
+import { HttpFetcher } from '../../utils/httpFetcher.js';
+import { CommandList } from '../metaData/commandList.js';
+
 
 @Discord()
 @injectable()
@@ -44,8 +46,8 @@ export class SwgohUpdate {
   async updateImpl(interaction: interactionType, database: DatabaseManager, toUpdate: string): Promise<number[]> {
     var abilityData = await container.resolve(HttpFetcher).getAbilities();
     for (var ability of abilityData) {
-      //await database.abilities.save(ability);
+      await database.abilities.save(ability);
     }
-    return [];
+    return [MessageCodes.ABILITY_UPDATE_FINISHED];
   }
 }

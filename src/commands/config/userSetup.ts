@@ -18,7 +18,12 @@ import { Allycode } from "../../models/allycode.js";
 @Discord()
 @injectable()
 export class UserSetup {
-  constructor(private _config: Config, private _i18n: I18NResolver) {}
+  private _config: Config;
+  private _i18n: I18NResolver;
+  constructor(config: Config, i18n: I18NResolver) {
+    this._config = config;
+    this._i18n = i18n;
+  }
 
   @Slash(CommandList.REGISTER)
   @Category("Profile")

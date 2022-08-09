@@ -7,8 +7,7 @@ import { Repository } from "typeorm";
 
 export class PlayerDao implements iTable<Player> {
   private readonly _database: Repository<Player>;
-  public static playerTableName = "players";
-  public static allycodeTableName = "allycode";
+
   constructor(database: Repository<Player>) {
     this._database = database;
   }

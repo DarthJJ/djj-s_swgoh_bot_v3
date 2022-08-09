@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ButtonInteraction, CommandInteraction } from "discord.js";
-import { DatabaseManager } from "../database/databaseManager.js";
-import { container } from "tsyringe";
-import { I18NResolver } from "../i18n/I18nResolver.js";
-import { Config } from "./config.js";
+import { ButtonInteraction, CommandInteraction } from 'discord.js';
+import { container } from 'tsyringe';
+
+import { DatabaseManager } from '../database/databaseManager.js';
+import { I18NResolver } from '../i18n/I18nResolver.js';
+import { Config } from './config.js';
 
 export type interactionType = CommandInteraction | ButtonInteraction;
 type botFunction = (interaction: interactionType, ...args: any) => Promise<number[]>;

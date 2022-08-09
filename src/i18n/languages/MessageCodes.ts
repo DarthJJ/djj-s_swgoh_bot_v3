@@ -21,4 +21,6 @@ export class MessageCodes {
   static LANGUAGE_PREF_UPDATED = 2021;
   ////Delete Command
   static DELETE_ACCOUNT_FINISHED = 2031;
+  ////Update Command
+  static ABILITY_UPDATE_FINISHED = 2041;
 }
