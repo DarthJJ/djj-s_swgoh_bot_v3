@@ -1,12 +1,14 @@
 import { Allycode } from "./allycode.js";
 import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
 
-@Entity({ name: "players" })
+@Entity({ name: "player" })
 export class Player {
   @PrimaryColumn({ name: "discordId" })
   public discordId: string;
   @OneToMany(() => Allycode, (allycode) => allycode.discordId, {
     cascade: true,
+    eager: true,
+    onDelete: "CASCADE",
   })
   public allycodes: Allycode[];
   @Column({ name: "name" })

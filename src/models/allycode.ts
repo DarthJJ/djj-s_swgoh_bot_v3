@@ -1,13 +1,15 @@
-import { Entity, Unique, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, JoinTable, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Player } from "./player.js";
-@Entity({ name: "allycodes" })
+@Entity({ name: "allycode" })
 export class Allycode {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column({ name: "allycodes" })
+  @Column({ name: "allycode" })
   public allycode: number;
-  @ManyToOne(() => Player, (player) => player.allycodes)
-  @Column({
+  @ManyToOne(() => Player, (player) => player.allycodes, {
+    onDelete: "CASCADE",
+  })
+  @JoinTable({
     name: "discordId",
   })
   public discordId: string;
