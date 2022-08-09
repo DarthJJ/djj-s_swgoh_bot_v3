@@ -1,6 +1,5 @@
 import { iTable } from "./iTable";
 import { Player } from "../../models/player.js";
-import { Log } from "../../utils/log.js";
 import { container } from "tsyringe";
 import { DatabaseError } from "../../exceptions/databaseError.js";
 import { Repository } from "typeorm";
@@ -24,7 +23,6 @@ export class PlayerDao implements iTable<Player> {
       }
       return player;
     } catch (exception: unknown) {
-      container.resolve(Log).Logger.error(exception);
       throw new DatabaseError("Something went wrong retrieving the player by discordID.", exception);
     }
   }
@@ -36,7 +34,6 @@ export class PlayerDao implements iTable<Player> {
         await this._database.remove(player);
       }
     } catch (exception: unknown) {
-      container.resolve(Log).Logger.error(exception);
       throw new DatabaseError("Something went wrong saving a player: " + id, exception);
     }
   }
@@ -45,7 +42,6 @@ export class PlayerDao implements iTable<Player> {
     try {
       await this._database.save(object);
     } catch (exception: unknown) {
-      container.resolve(Log).Logger.error(exception);
       throw new DatabaseError("Something went wrong saving a player: " + object, exception);
     }
   }

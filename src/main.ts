@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { Config } from "./utils/config.js";
 import { dirname, importx } from "@discordx/importer";
 import { container, autoInjectable } from "tsyringe";
-import { ActivityType, IntentsBitField } from "discord.js";
+import { ActivityType, CacheType, IntentsBitField, Interaction } from "discord.js";
 import { Client, Discord, DIService, tsyringeDependencyRegistryEngine } from "discordx";
 import { DatabaseManager } from "./database/databaseManager.js";
 import { Log } from "./utils/log.js";
@@ -79,8 +79,7 @@ export class Main {
     });
 
     this._client.on("interactionCreate", (interaction) => {
-      this._log.Logger.silly(interaction.toJSON());
-      this._client.executeInteraction(interaction);
+      this.handleTransaction(interaction);
     });
 
     await importx(dirname(import.meta.url) + "/{events,commands}/**/*.{ts,js}");
@@ -88,6 +87,11 @@ export class Main {
       throw Error(">> Could not find the bot token, stopping bot");
     }
     await this._client.login(this._config.BOT_TOKEN);
+  }
+
+  private handleTransaction(interaction: Interaction) {
+    this._log.Logger.silly(interaction.toJSON());
+    this._client.executeInteraction(interaction);
   }
 }
 new Main();

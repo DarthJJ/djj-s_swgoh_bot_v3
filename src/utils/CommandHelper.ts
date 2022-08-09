@@ -5,6 +5,7 @@ import { container } from 'tsyringe';
 import { DatabaseManager } from '../database/databaseManager.js';
 import { I18NResolver } from '../i18n/I18nResolver.js';
 import { Config } from './config.js';
+import { Log } from './log.js';
 
 export type interactionType = CommandInteraction | ButtonInteraction;
 type botFunction = (interaction: interactionType, ...args: any) => Promise<number[]>;
@@ -25,7 +26,8 @@ export async function executeCommand(func: botFunction | botFunctionWithDb, inte
     const localePef = player?.localePref!;
 
     botResponse(interaction, localePef, result); //to be extended if modals or anything will be sent
-  } catch (exception) {
+  } catch (exception: unknown) {
+    container.resolve(Log).Logger.error(exception);
     if (interaction.member?.user.id === container.resolve(Config).BOT_ADMIN_ID) {
       interaction.editReply("```" + exception + "```");
       return;
