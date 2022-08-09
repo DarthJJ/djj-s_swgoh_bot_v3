@@ -3,8 +3,6 @@ import { Player } from "../../models/player.js";
 import { Log } from "../../utils/log.js";
 import { container } from "tsyringe";
 import { DatabaseError } from "../../exceptions/databaseError.js";
-import { Allycode } from "../../models/allycode.js";
-import { DatabaseManager } from "../databaseManager.js";
 import { Repository } from "typeorm";
 
 export class PlayerDao implements iTable<Player> {

@@ -1,5 +1,5 @@
 import { singleton } from "tsyringe";
-import { ILogObject, Logger } from "tslog";
+import { createLogger, transports, format, Logger } from "winston";
 import { Config } from "./config.js";
 import { appendFile } from "fs";
 
@@ -13,65 +13,28 @@ export class Log {
   private readonly infoFile: string = "info.json";
   private readonly interactionFile: string = "interaction.json";
 
+  public get Logger(): Logger {
+    return this._logger;
+  }
   constructor(config: Config) {
     this._config = config;
     this._logPath = this._config.LOG_PATH;
-    this._logger = new Logger({
-      name: "botLogger",
-      instanceName: "botLogger",
-      exposeErrorCodeFrame: config.DEV_MODE ? true : false,
-      suppressStdOutput: false,
-      dateTimeTimezone: "Europe/Amsterdam",
-      printLogMessageInNewLine: true,
-      displayLoggerName: false,
-      displayTypes: true,
-      displayFilePath: "hidden",
-      colorizePrettyLogs: true,
+    this._logger = createLogger({
+      format: format.json(),
+      defaultMeta: { service: "bot-service" },
+      transports: [
+        new transports.File({ filename: "./" + this._logPath + "/" + this.errorFile, level: "error" }),
+        new transports.File({ filename: "./" + this._logPath + "/" + this.debugFile, level: "debug" }),
+        new transports.File({ filename: "./" + this._logPath + "/" + this.infoFile, level: "info" }),
+        new transports.File({ filename: "./" + this._logPath + "/" + this.interactionFile, level: "silly" }),
+      ],
     });
-    this._logger.attachTransport({
-      silly: this.logToInteraction,
-      debug: this.logToDebug,
-      trace: this.logToDebug,
-      info: this.logToInfo,
-      warn: this.logToDebug,
-      error: this.logToError,
-      fatal: this.logToError,
-    });
+    if (config.DEV_MODE) {
+      this._logger.add(
+        new transports.Console({
+          format: format.simple(),
+        })
+      );
+    }
   }
-
-  public get Logger() {
-    return this._logger;
-  }
-
-  private getDate = (): string => {
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2, "0");
-    const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    const yyyy = today.getFullYear();
-    return yyyy + "-" + mm + "-" + dd;
-  };
-
-  private writeToFile = (message: string, filename: string) => {
-    const filepath: string = "./" + this._logPath + "/" + this.getDate() + "_" + filename;
-    appendFile(filepath, message + "\n", (err) => {
-      if (err) {
-        console.error(err);
-      }
-    });
-  };
-  private logToInteraction = (LogObject: ILogObject) => {
-    this.writeToFile(JSON.stringify(LogObject), this.interactionFile);
-  };
-
-  private logToDebug = (LogObject: ILogObject) => {
-    this.writeToFile(JSON.stringify(LogObject), this.debugFile);
-  };
-
-  private logToError = (LogObject: ILogObject) => {
-    this.writeToFile(JSON.stringify(LogObject), this.errorFile);
-  };
-
-  private logToInfo = (LogObject: ILogObject) => {
-    this.writeToFile(JSON.stringify(LogObject), this.infoFile);
-  };
 }
