@@ -7,6 +7,8 @@ export class MessageCodes {
   static REQUEST_CONFIRM = 1005;
   static REQUEST_CANCEL = 1006;
   static REQUEST_ARE_YOU_SURE = 1007;
+  //11xx = GuardData
+  static NOT_REGISTERED = 1101;
   //2xxx = Command specific
   ////Purge command
   static PURGE_STARTED = 2001;

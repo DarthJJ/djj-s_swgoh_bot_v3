@@ -11,9 +11,9 @@ export const Admin: GuardFunction<CommandInteraction> = async (interaction, clie
     //BOT_ADMIN_OVERRIDE
     await next();
     return;
-    //TODO add Admin role check based on guild config.
-    await interaction.reply("```You are not authorized to use this command```");
   }
+  //TODO add Admin role check based on guild config.
+  await interaction.reply("```You are not authorized to use this command```");
 };
 
 export const BotOwner: GuardFunction<CommandInteraction> = async (interaction, client, next, guardData) => {
@@ -60,14 +60,14 @@ export const NotBot: GuardFunction<ArgsOf<"messageCreate" | "messageReactionAdd"
     argObj instanceof CommandInteraction
       ? argObj.user
       : argObj instanceof MessageReaction
-      ? argObj.message.author
-      : argObj instanceof VoiceState
-      ? argObj.member?.user
-      : argObj instanceof Message
-      ? argObj.author
-      : argObj instanceof CommandInteraction || argObj instanceof SelectMenuInteraction || argObj instanceof ButtonInteraction
-      ? argObj.member?.user
-      : argObj.message.author;
+        ? argObj.message.author
+        : argObj instanceof VoiceState
+          ? argObj.member?.user
+          : argObj instanceof Message
+            ? argObj.author
+            : argObj instanceof CommandInteraction || argObj instanceof SelectMenuInteraction || argObj instanceof ButtonInteraction
+              ? argObj.member?.user
+              : argObj.message.author;
   if (!user?.bot) {
     guardData.message = "the NotBot guard passed";
     await next();

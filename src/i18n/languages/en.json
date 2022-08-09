@@ -24,6 +24,10 @@
         "value": "Cancel Request"
     },
     {
+        "messageCode": 1101,
+        "value": "You are not registered with this bot, please do so first"
+    },
+    {
         "messageCode": 2001,
         "value": "Deletion started"
     },

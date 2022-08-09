@@ -1,19 +1,27 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { Category } from '@discordx/utilities';
+import {
+  ActionRowBuilder,
+  ApplicationCommandOptionType,
+  ButtonBuilder,
+  ButtonInteraction,
+  ButtonStyle,
+  CommandInteraction,
+  MessageActionRowComponentBuilder,
+} from 'discord.js';
+import { ButtonComponent, Client, Discord, Guard, Slash, SlashChoice, SlashOption } from 'discordx';
+import { injectable } from 'tsyringe';
 
-import { Discord, Client, Guard, Slash, SlashChoice, SlashOption, ButtonComponent } from "discordx";
-import { ApplicationCommandOptionType, ButtonBuilder, ButtonStyle, CommandInteraction, ActionRowBuilder, MessageActionRowComponentBuilder, ButtonInteraction } from "discord.js";
-import { DatabaseManager } from "../../database/databaseManager.js";
-import { injectable } from "tsyringe";
-import { Player } from "../../models/player.js";
-import { Config } from "../../utils/config.js";
-import { availableTranslations } from "../../i18n/I18nResolver.js";
-import { MessageCodes } from "../../i18n/languages/MessageCodes.js";
-import { PlayerRegistered } from "../../guard/genericCommandGuard.js";
-import { Category } from "@discordx/utilities";
-import { CommandList } from "../metaData/commandList.js";
-import { executeCommand, interactionType } from "../../utils/commandHelper.js";
-import { I18NResolver } from "../../i18n/I18nResolver.js";
-import { Allycode } from "../../models/allycode.js";
+import { DatabaseManager } from '../../database/databaseManager.js';
+import { PlayerRegistered } from '../../guard/genericCommandGuard.js';
+import { availableTranslations, I18NResolver } from '../../i18n/I18nResolver.js';
+import { MessageCodes } from '../../i18n/languages/MessageCodes.js';
+import { Allycode } from '../../models/allycode.js';
+import { Player } from '../../models/player.js';
+import { executeCommand, interactionType } from '../../utils/commandHelper.js';
+import { Config } from '../../utils/config.js';
+import { CommandList } from '../metaData/commandList.js';
+
 
 @Discord()
 @injectable()
@@ -109,7 +117,6 @@ export class UserSetup {
   }
 
   async deleteAccountImpl(interaction: interactionType, database: DatabaseManager, player: Player): Promise<number[]> {
-    console.log("test");
     await database.players.delete(player.discordId);
     return [MessageCodes.DELETE_ACCOUNT_FINISHED];
   }

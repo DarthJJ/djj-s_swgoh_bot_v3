@@ -90,8 +90,13 @@ export class Main {
   }
 
   private handleTransaction(interaction: Interaction) {
-    this._log.Logger.silly(interaction.toJSON());
-    this._client.executeInteraction(interaction);
+    try {
+      this._log.Logger.silly(interaction.toJSON());
+      this._client.executeInteraction(interaction);
+    } catch (exception: unknown) {
+      this._log.Logger.error(exception);
+      interaction
+    }
   }
 }
 new Main();
