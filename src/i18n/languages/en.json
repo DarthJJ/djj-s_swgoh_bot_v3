@@ -1,70 +1,82 @@
 [
-    {
-        "messageCode": 1001,
-        "value": "Please wait"
-    },
-    {
-        "messageCode": 1002,
-        "value": "This message will self-delete in 3 seconds"
-    },
-    {
-        "messageCode": 1003,
-        "value": "Enjoy using the bot!"
-    },
-    {
-        "messageCode": 1004,
-        "value": "Request cancelled"
-    },
-    {
-        "messageCode": 1005,
-        "value": "Please confirm your request!"
-    },
-    {
-        "messageCode": 1006,
-        "value": "Cancel Request"
-    },
-    {
-        "messageCode": 1101,
-        "value": "You are not registered with this bot, please do so first"
-    },
-    {
-        "messageCode": 2001,
-        "value": "Deletion started"
-    },
-    {
-        "messageCode": 2002,
-        "value": "Deletion Finished"
-    },
-    {
-        "messageCode": 2003,
-        "value": "Nothing to delete"
-    },
-    {
-        "messageCode": 2004,
-        "value": "This Command can only be executed in a Guild Text channel"
-    },
-    {
-        "messageCode": 2005,
-        "value": "Purge limit exceeded, max is: "
-    },
-    {
-        "messageCode": 2011,
-        "value": "You are already registered"
-    },
-    {
-        "messageCode": 2012,
-        "value": "Registration complete"
-    },
-    {
-        "messageCode": 2021,
-        "value": "Your language pref has been updated!"
-    },
-    {
-        "messageCode": 2031,
-        "value": "Your account has been deleted, goodbye"
-    },
-    {
-        "messageCode": 2041,
-        "value": "Update of SWGOH abilities has finished"
-    }
+  {
+    "messageCode": 1001,
+    "value": "Please wait"
+  },
+  {
+    "messageCode": 1002,
+    "value": "This message will self-delete in 3 seconds"
+  },
+  {
+    "messageCode": 1003,
+    "value": "Enjoy using the bot!"
+  },
+  {
+    "messageCode": 1004,
+    "value": "Request cancelled"
+  },
+  {
+    "messageCode": 1005,
+    "value": "Please confirm your request!"
+  },
+  {
+    "messageCode": 1006,
+    "value": "Cancel Request"
+  },
+  {
+    "messageCode": 1007,
+    "value": "Are you sure?"
+  },
+  {
+    "messageCode": 1008,
+    "value": "Something went wrong, try again later or contact the botdev"
+  },
+  {
+    "messageCode": 1101,
+    "value": "You are not registered with this bot, please do so first"
+  },
+  {
+    "messageCode": 2001,
+    "value": "Deletion started"
+  },
+  {
+    "messageCode": 2002,
+    "value": "Deletion Finished"
+  },
+  {
+    "messageCode": 2003,
+    "value": "Nothing to delete"
+  },
+  {
+    "messageCode": 2004,
+    "value": "This Command can only be executed in a Guild Text channel"
+  },
+  {
+    "messageCode": 2005,
+    "value": "Purge limit exceeded, max is: "
+  },
+  {
+    "messageCode": 2011,
+    "value": "You are already registered"
+  },
+  {
+    "messageCode": 2012,
+    "value": "Registration complete"
+  },
+  {
+    "messageCode": 2021,
+    "value": "Your language pref has been updated!"
+  },
+  {
+    "messageCode": 2031,
+    "value": "Your account has been deleted, goodbye"
+  },
+  {
+    "messageCode": 2041,
+    "value": "Update of SWGOH abilities has finished"
+  },
+  {
+    "messageCode": 2042,
+    "value": "Update of SWGOH characters has finised"
+  }
 ]

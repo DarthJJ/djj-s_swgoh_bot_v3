@@ -1,11 +1,10 @@
 import { iTable } from "./iTable.js";
-import { Ability } from "../../models/ability.js";
+import { Ability } from "../../models/swgoh/ability.js";
 import { DatabaseError } from "../../exceptions/databaseError.js";
 import { Repository } from "typeorm";
-import { container } from "tsyringe";
 
-export class AbilityDao implements iTable<Ability>{
-  private readonly _database: Repository<Ability>
+export class AbilityDao implements iTable<Ability> {
+  private readonly _database: Repository<Ability>;
 
   constructor(database: Repository<Ability>) {
     this._database = database;

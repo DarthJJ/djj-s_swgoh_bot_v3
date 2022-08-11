@@ -1,6 +1,8 @@
 import { singleton } from "tsyringe";
 import { HttpError } from "../exceptions/httpError.js";
-import { Ability } from "../models/ability.js";
+import { Serializable } from "../models/modelHelpers/serializable.js";
+import { Ability } from "../models/swgoh/ability.js";
+import { Character } from "../models/swgoh/character.js";
 
 @singleton()
 export class HttpFetcher {
@@ -13,14 +15,23 @@ export class HttpFetcher {
   private readonly glChecklistEndpoint: string = this.baseApiUrl + "gl-checklist/";
   private readonly playerModEndpoint: string = this.baseApiUrl + "player/{0}/mods/"; //<-- override {0} with allycode
 
-  async getAbilities(): Promise<Ability[]> {
-    // return await this.apiCall<Ability[]>(this.abilitiesEndpoint);
-    const data = await this.apiCall(this.abilitiesEndpoint);
-    const returnData: Ability[] = [];
+  async get<T extends Serializable>(type: new () => T): Promise<T[]> {
+    const returnData: T[] = [];
+    const data = await this.apiCall(this.determineEndPoint(type.name));
     for (let index in data) {
-      returnData.push(new Ability().fillFromJSON(data[index]));
+      returnData.push(new type().createFromJSON(data[index]));
     }
     return returnData;
+  }
+
+  private determineEndPoint(type: string): string {
+    switch (type) {
+      case Ability.name:
+        return this.abilitiesEndpoint;
+      case Character.name:
+        return this.characterEndpoint;
+    }
+    throw new HttpError("No endpoint available", null);
   }
 
   private async apiCall(url: string): Promise<object[]> {

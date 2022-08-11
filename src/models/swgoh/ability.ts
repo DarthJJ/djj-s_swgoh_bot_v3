@@ -1,5 +1,6 @@
-import { Serializable } from "./modelHelpers/serializable.js";
-import { Entity, Column, PrimaryColumn } from "typeorm";
+import { Serializable } from "../modelHelpers/serializable.js";
+import { Entity, Column, PrimaryColumn, ManyToOne } from "typeorm";
+import { Character } from "./character.js";
 
 @Entity({ name: "ability" })
 export class Ability extends Serializable {
@@ -27,6 +28,7 @@ export class Ability extends Serializable {
   omicron_mode: number;
   @Column({ name: "type" })
   type: number;
+  @ManyToOne(() => Character, (character) => character.base_id)
   @Column({ name: "characterBaseId", nullable: true, type: "varchar" })
   character_base_id: string | null;
   @Column({ name: "shipBaseId", nullable: true, type: "varchar" })
@@ -37,6 +39,6 @@ export class Ability extends Serializable {
 
   constructor() {
     super();
-    this.omicronBattleTypes = this.omicron_battle_types ? this.omicron_battle_types.join(';') : '';
+    this.omicronBattleTypes = this.omicron_battle_types ? this.omicron_battle_types.join(";") : "";
   }
 }
