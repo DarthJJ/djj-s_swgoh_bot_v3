@@ -27,4 +27,5 @@ export class MessageCodes {
   ////Update Command
   static ABILITY_UPDATE_FINISHED = 2041;
   static CHARACTER_UPDATE_FINISHED = 2042;
+  static SHIP_UPDATE_FINISHED = 2043;
 }

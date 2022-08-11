@@ -1,6 +1,7 @@
 import { Serializable } from "../modelHelpers/serializable.js";
-import { Entity, Column, PrimaryColumn, ManyToOne } from "typeorm";
+import { Entity, Column, PrimaryColumn, ManyToOne, OneToOne, JoinColumn } from "typeorm";
 import { Character } from "./character.js";
+import { Ship } from "./ship.js";
 
 @Entity({ name: "ability" })
 export class Ability extends Serializable {
@@ -10,7 +11,7 @@ export class Ability extends Serializable {
   name: string;
   @Column({ name: "image" })
   image: string;
-  @Column({ name: "url" })
+  @Column({ name: "url", nullable: true })
   url: string;
   @Column({ name: "tierMax" })
   tier_max: number;
@@ -20,18 +21,22 @@ export class Ability extends Serializable {
   is_omega: boolean;
   @Column({ name: "isOmicron" })
   is_omicron: boolean;
-  @Column({ name: "description`" })
+  @Column({ name: "description" })
   description: string;
   @Column({ name: "combatType" })
   combat_type: number;
-  @Column({ name: "omicronMode" })
+  @Column({ name: "omicronMode", nullable: true })
   omicron_mode: number;
-  @Column({ name: "type" })
+  @Column({ name: "type", nullable: true })
   type: number;
-  @ManyToOne(() => Character, (character) => character.base_id)
-  @Column({ name: "characterBaseId", nullable: true, type: "varchar" })
+  // @ManyToOne(() => Character, (character) => character.base_id)
+  @ManyToOne(() => Character, (character) => character.base_id, { nullable: true })
+  //@Column({ name: "characterBaseId", nullable: true, type: "varchar" })
+  @JoinColumn({ name: "characterBaseId", foreignKeyConstraintName: "FK_characterBaseId" })
   character_base_id: string | null;
-  @Column({ name: "shipBaseId", nullable: true, type: "varchar" })
+  @ManyToOne(() => Ship, (ship) => ship.base_id, { nullable: true })
+  // @Column({ name: "shipBaseId", nullable: true, type: "varchar" })
+  @JoinColumn({ name: "shipBaseId", foreignKeyConstraintName: "FK_shipBaseId" })
   ship_base_id: string | null;
   @Column({ name: "omicronBattleTypes", nullable: true })
   omicronBattleTypes: string;

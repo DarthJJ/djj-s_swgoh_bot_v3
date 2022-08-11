@@ -34,6 +34,6 @@ export class Character extends Serializable {
   @Column({ name: "activateShardCount" })
   activate_shard_count: number;
 
-  @OneToMany(() => Ability, (ability) => ability.character_base_id)
+  @OneToMany(() => Ability, (ability) => ability.base_id, { nullable: true, eager: true })
   abilities: Ability[];
 }

@@ -1,10 +1,9 @@
-import { iTable } from "./iTable";
+import { iDao } from "./iDao";
 import { Player } from "../../models/player.js";
-import { container } from "tsyringe";
 import { DatabaseError } from "../../exceptions/databaseError.js";
 import { Repository } from "typeorm";
 
-export class PlayerDao implements iTable<Player> {
+export class PlayerDao implements iDao<Player> {
   private readonly _database: Repository<Player>;
 
   constructor(database: Repository<Player>) {

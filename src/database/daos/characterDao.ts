@@ -1,9 +1,9 @@
-import { iTable } from "./iTable.js";
-import { Character } from "../../models/swgoh/character.js";
-import { DatabaseError } from "../../exceptions/databaseError.js";
 import { Repository } from "typeorm";
+import { DatabaseError } from "../../exceptions/databaseError.js";
+import { Character } from "../../models/swgoh/character.js";
+import { iDao } from "./iDao.js";
 
-export class CharacterDao implements iTable<Character> {
+export class CharacterDao implements iDao<Character> {
   private readonly _database: Repository<Character>;
 
   constructor(database: Repository<Character>) {
@@ -19,6 +19,13 @@ export class CharacterDao implements iTable<Character> {
       throw new DatabaseError("Something went wrong saving the character", exception);
     }
   }
+
+  async saveAll(object: Character[]): Promise<void> {
+    for (var character of object) {
+      await this.save(character);
+    }
+  }
+
   async delete(id: string | number): Promise<void> {
     throw new Error("Method not implemented.");
   }

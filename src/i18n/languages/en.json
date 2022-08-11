@@ -78,5 +78,9 @@
   {
     "messageCode": 2042,
     "value": "Update of SWGOH characters has finised"
+  },
+  {
+    "messageCode": 2043,
+    "value": "Update of SWGOH ships has finished"
   }
 ]

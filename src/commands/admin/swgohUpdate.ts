@@ -13,6 +13,7 @@ import { executeCommand, interactionType } from "../../utils/CommandHelper.js";
 import { HttpFetcher } from "../../utils/httpFetcher.js";
 import { CommandList } from "../metaData/commandList.js";
 import { Ability } from "../../models/swgoh/ability.js";
+import { Ship } from "../../models/swgoh/ship.js";
 
 @Discord()
 @injectable()
@@ -33,7 +34,8 @@ export class SwgohUpdate {
     @SlashChoice(
       ...[
         { name: "abilities", value: "abilities" },
-        { name: "characterData", value: "characterData" },
+        { name: "characters", value: "characters" },
+        { name: "ships", value: "ships" },
       ]
     )
     @SlashOption("to_update", {
@@ -56,16 +58,20 @@ export class SwgohUpdate {
       case "abilities":
         data = await container.resolve(HttpFetcher).get<Ability>(Ability);
         message = [MessageCodes.ABILITY_UPDATE_FINISHED];
+        await database.abilities.saveAll(data);
         break;
-      case "characterData":
+      case "characters":
         data = await container.resolve(HttpFetcher).get<Character>(Character);
         message = [MessageCodes.CHARACTER_UPDATE_FINISHED];
+        await database.characters.saveAll(data);
+        break;
+      case "ships":
+        data = await container.resolve(HttpFetcher).get<Ship>(Ship);
+        message = [MessageCodes.SHIP_UPDATE_FINISHED];
+        await database.ships.saveAll(data);
         break;
       default:
         return [MessageCodes.GENERIC_ERROR];
-    }
-    for (var object of data) {
-      await database.save<typeof object>(object);
     }
     return message;
   }

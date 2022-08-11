@@ -1,7 +1,6 @@
 import { singleton } from "tsyringe";
-import { createLogger, transports, format, Logger } from "winston";
+import { createLogger, format, Logger, transports } from "winston";
 import { Config } from "./config.js";
-import { appendFile } from "fs";
 
 @singleton()
 export class Log {
