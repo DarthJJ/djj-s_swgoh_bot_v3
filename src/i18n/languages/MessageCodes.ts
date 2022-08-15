@@ -29,4 +29,6 @@ export class MessageCodes {
   static START_UPDATE_CHARACTERS = 2042;
   static START_UPDATE_SHIPS = 2043;
   static START_UPDATE_ABILITIES = 2044;
+  ////Profile Command
+  static START_UPDATE_PLAYER_DATA = 2051;
 }

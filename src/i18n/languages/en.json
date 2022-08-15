@@ -77,14 +77,18 @@
   },
   {
     "messageCode": 2042,
-    "value": "Starting update of \"Character\" data, please wait!"
+    "value": "Starting update of \"Character\" data"
   },
   {
     "messageCode": 2043,
-    "value": "Starting update of \"Ship\" data, please wait!"
+    "value": "Starting update of \"Ship\" data"
   },
   {
     "messageCode": 2044,
-    "value": "Starting update of \"Ability\" data, please wait"
+    "value": "Starting update of \"Ability\" data"
+  },
+  {
+    "messageCode": 2051,
+    "value": "Start retrieval data from \"swgoh.gg\""
   }
 ]

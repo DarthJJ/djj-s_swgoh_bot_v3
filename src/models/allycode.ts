@@ -1,12 +1,12 @@
 import { Entity, JoinTable, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Player } from "./player.js";
+import { User } from "./user.js";
 @Entity({ name: "allycode" })
 export class Allycode {
   @PrimaryGeneratedColumn()
   id: number;
   @Column({ name: "allycode" })
   public allycode: number;
-  @ManyToOne(() => Player, (player) => player.allycodes, {
+  @ManyToOne(() => User, (player) => player.allycodes, {
     onDelete: "CASCADE",
   })
   @JoinTable({

@@ -1,27 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Category } from '@discordx/utilities';
-import {
-  ActionRowBuilder,
-  ApplicationCommandOptionType,
-  ButtonBuilder,
-  ButtonInteraction,
-  ButtonStyle,
-  CommandInteraction,
-  MessageActionRowComponentBuilder,
-} from 'discord.js';
-import { ButtonComponent, Client, Discord, Guard, Slash, SlashChoice, SlashOption } from 'discordx';
-import { injectable } from 'tsyringe';
+import { Category } from "@discordx/utilities";
+import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonInteraction, ButtonStyle, CommandInteraction, MessageActionRowComponentBuilder } from "discord.js";
+import { ButtonComponent, Client, Discord, Guard, Slash, SlashChoice, SlashOption } from "discordx";
+import { injectable } from "tsyringe";
 
-import { DatabaseManager } from '../../database/databaseManager.js';
-import { PlayerRegistered } from '../../guard/genericCommandGuard.js';
-import { availableTranslations, I18NResolver } from '../../i18n/I18nResolver.js';
-import { MessageCodes } from '../../i18n/languages/MessageCodes.js';
-import { Allycode } from '../../models/allycode.js';
-import { Player } from '../../models/player.js';
-import { executeCommand, interactionType } from '../../utils/commandHelper.js';
-import { Config } from '../../utils/config.js';
-import { CommandList } from '../metaData/commandList.js';
-
+import { DatabaseManager } from "../../database/databaseManager.js";
+import { PlayerRegistered } from "../../guard/genericCommandGuard.js";
+import { availableTranslations, I18NResolver } from "../../i18n/I18nResolver.js";
+import { MessageCodes } from "../../i18n/languages/MessageCodes.js";
+import { Allycode } from "../../models/allycode.js";
+import { User } from "../../models/user.js";
+import { executeCommand, interactionType } from "../../utils/CommandHelper.js";
+import { Config } from "../../utils/config.js";
+import { CommandList } from "../metaData/commandList.js";
 
 @Discord()
 @injectable()
@@ -34,7 +25,7 @@ export class UserSetup {
   }
 
   @Slash(CommandList.REGISTER)
-  @Category("Profile")
+  @Category("UserSetup")
   @Guard()
   async register(
     @SlashOption("allycode", {
@@ -61,7 +52,7 @@ export class UserSetup {
   }
 
   @Slash(CommandList.CHANGE_LANGEUAGE_PREF)
-  @Category("Profile")
+  @Category("UserSetup")
   @Guard(PlayerRegistered)
   async changeLanguage(
     @SlashChoice(...(Object.keys(availableTranslations) as Array<keyof typeof availableTranslations>).map((key) => ({ name: key, value: availableTranslations[key] })))
@@ -73,14 +64,14 @@ export class UserSetup {
     language: string,
     interaction: CommandInteraction,
     client: Client,
-    guardData: { player: Player }
+    guardData: { player: User }
   ): Promise<void> {
     executeCommand(this.changeLanguageImpl, interaction, true, guardData.player, language);
   }
   @Slash(CommandList.DELETE_ACCOUNT)
-  @Category("Profile")
+  @Category("UserSetup")
   @Guard(PlayerRegistered)
-  async deleteAccount(interaction: CommandInteraction, client: Client, guardData: { player: Player }): Promise<void> {
+  async deleteAccount(interaction: CommandInteraction, client: Client, guardData: { player: User }): Promise<void> {
     await interaction.deferReply();
     const confirmButton = new ButtonBuilder()
       .setLabel(this._i18n.getTranslation(guardData.player.localePref, MessageCodes.REQUEST_CONFIRM))
@@ -99,7 +90,7 @@ export class UserSetup {
 
   @ButtonComponent("confirm-account-deletion")
   @Guard(PlayerRegistered)
-  async confirmAccountDeletion(interaction: ButtonInteraction, client: Client, guardData: { player: Player }): Promise<void> {
+  async confirmAccountDeletion(interaction: ButtonInteraction, client: Client, guardData: { player: User }): Promise<void> {
     await interaction.message.edit({
       components: [],
       content: this._i18n.getTranslation(guardData.player.localePref, MessageCodes.PLEASE_WAIT),
@@ -109,19 +100,19 @@ export class UserSetup {
 
   @ButtonComponent("cancel-account-deletion")
   @Guard(PlayerRegistered)
-  async cancelAccountDeletion(interaction: ButtonInteraction, client: Client, guardData: { player: Player }): Promise<void> {
+  async cancelAccountDeletion(interaction: ButtonInteraction, client: Client, guardData: { player: User }): Promise<void> {
     await await interaction.message.edit({
       components: [],
       content: this._i18n.getTranslation(guardData.player.localePref, MessageCodes.REQUEST_CANCELLED),
     });
   }
 
-  async deleteAccountImpl(interaction: interactionType, database: DatabaseManager, player: Player): Promise<number[]> {
+  async deleteAccountImpl(interaction: interactionType, database: DatabaseManager, player: User): Promise<number[]> {
     await database.players.delete(player.discordId);
     return [MessageCodes.DELETE_ACCOUNT_FINISHED];
   }
 
-  async changeLanguageImpl(interction: interactionType, database: DatabaseManager, player: Player, languagePref: string): Promise<number[]> {
+  async changeLanguageImpl(interction: interactionType, database: DatabaseManager, player: User, languagePref: string): Promise<number[]> {
     player.localePref = languagePref;
     await database.players.save(player);
     return [MessageCodes.LANGUAGE_PREF_UPDATED, MessageCodes.ENJOY_USING_BOT];
@@ -132,7 +123,7 @@ export class UserSetup {
     if (player) {
       return [MessageCodes.REGISTER_ALREADY_DONE, MessageCodes.ENJOY_USING_BOT];
     }
-    player = new Player(interaction.member?.user.id!, interaction.user.username, languagePref, [new Allycode(allycode, interaction.member?.user.id!, true)]);
+    player = new User(interaction.member?.user.id!, interaction.user.username, languagePref, [new Allycode(allycode, interaction.member?.user.id!, true)]);
     await database.players.save(player);
     return [MessageCodes.REGISTER_FINSIED, MessageCodes.ENJOY_USING_BOT];
   }

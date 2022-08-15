@@ -7,4 +7,6 @@ export class CommandList {
   public static REGISTER = "register";
   public static CHANGE_LANGEUAGE_PREF = "change-language";
   public static DELETE_ACCOUNT = "delete-account";
+  //Swgoh - Profile
+  public static OVERVIEW = "overview";
 }

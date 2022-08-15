@@ -2,21 +2,21 @@ import { singleton } from "tsyringe";
 import { DataSource } from "typeorm";
 
 import { Allycode } from "../models/allycode.js";
-import { Player } from "../models/player.js";
+import { User } from "../models/user.js";
 import { Ability } from "../models/swgoh/ability.js";
 import { Character } from "../models/swgoh/character.js";
 import { Ship } from "../models/swgoh/ship.js";
 import { Config } from "../utils/config.js";
 import { AbilityDao } from "./daos/abilityDao.js";
 import { CharacterDao } from "./daos/characterDao.js";
-import { PlayerDao } from "./daos/playerDao.js";
+import { UserDao } from "./daos/userDao.js";
 import { ShipDao } from "./daos/shipDao.js";
 
 @singleton()
 export class DatabaseManager {
   private database: DataSource;
-  private readonly entities = [Player, Allycode, Ability, Character, Ship];
-  private playerDao: PlayerDao;
+  private readonly entities = [User, Allycode, Ability, Character, Ship];
+  private playerDao: UserDao;
   private abilityDao: AbilityDao;
   private characterDao: CharacterDao;
   private shipDao: ShipDao;
@@ -25,7 +25,7 @@ export class DatabaseManager {
     this.initDb(config.DEV_MODE, config.RECREATE_DB, config.FILL_TEST_DATA);
   }
 
-  public get players(): PlayerDao {
+  public get players(): UserDao {
     return this.playerDao;
   }
 
@@ -42,7 +42,7 @@ export class DatabaseManager {
   }
 
   private initDaos() {
-    this.playerDao = new PlayerDao(this.database.getRepository(Player));
+    this.playerDao = new UserDao(this.database.getRepository(User));
     this.abilityDao = new AbilityDao(this.database.getRepository(Ability));
     this.characterDao = new CharacterDao(this.database.getRepository(Character));
     this.shipDao = new ShipDao(this.database.getRepository(Ship));
@@ -66,7 +66,7 @@ export class DatabaseManager {
     await this.database.initialize().catch((error) => console.error(error));
     this.initDaos();
     if (FILL_TEST_DATA) {
-      var player = new Player("405842805441822721", "Darth JarJar", "en", [new Allycode(123123123, "405842805441822721", true)]);
+      var player = new User("405842805441822721", "Darth JarJar", "en", [new Allycode(123123123, "405842805441822721", true)]);
       await this.playerDao.save(player);
     }
   }

@@ -3,6 +3,7 @@ import { HttpError } from "../exceptions/httpError.js";
 import { Serializable } from "../models/modelHelpers/serializable.js";
 import { Ability } from "../models/swgoh/ability.js";
 import { Character } from "../models/swgoh/character.js";
+import { Player } from "../models/swgoh/player.js";
 import { Ship } from "../models/swgoh/ship.js";
 
 @singleton()
@@ -33,6 +34,8 @@ export class HttpFetcher {
         return this.characterEndpoint;
       case Ship.name:
         return this.shipEndpoint;
+      case Player.name:
+        return this.playerEndpoint;
     }
     throw new HttpError("No endpoint available", null);
   }
