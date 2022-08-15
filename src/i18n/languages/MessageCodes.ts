@@ -25,7 +25,8 @@ export class MessageCodes {
   ////Delete Command
   static DELETE_ACCOUNT_FINISHED = 2031;
   ////Update Command
-  static ABILITY_UPDATE_FINISHED = 2041;
-  static CHARACTER_UPDATE_FINISHED = 2042;
-  static SHIP_UPDATE_FINISHED = 2043;
+  static UPDATE_FINISHED = 2041;
+  static START_UPDATE_CHARACTERS = 2042;
+  static START_UPDATE_SHIPS = 2043;
+  static START_UPDATE_ABILITIES = 2044;
 }

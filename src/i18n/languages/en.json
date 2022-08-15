@@ -73,14 +73,18 @@
   },
   {
     "messageCode": 2041,
-    "value": "Update of SWGOH abilities has finished"
+    "value": "Update of SWGOH abilities, ships and characters has finished"
   },
   {
     "messageCode": 2042,
-    "value": "Update of SWGOH characters has finised"
+    "value": "Starting update of \"Character\" data, please wait!"
   },
   {
     "messageCode": 2043,
-    "value": "Update of SWGOH ships has finished"
+    "value": "Starting update of \"Ship\" data, please wait!"
+  },
+  {
+    "messageCode": 2044,
+    "value": "Starting update of \"Ability\" data, please wait"
   }
 ]
