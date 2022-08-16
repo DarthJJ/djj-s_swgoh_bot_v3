@@ -24,25 +24,15 @@ export class UserSetup {
     this._i18n = i18n;
   }
 
-  @Slash(CommandList.REGISTER)
+  @Slash({ name: CommandList.REGISTER })
   @Category("UserSetup")
   @Guard()
   async register(
-    @SlashOption("allycode", {
-      description: "Your SWGOH allycode, format <XXXXXXXXX>",
-      required: true,
-      type: ApplicationCommandOptionType.Number,
-      minValue: 100000000,
-      maxValue: 1000000000,
-    })
+    @SlashOption({ name: "allycode", description: "Your SWGOH allycode, format <XXXXXXXXX>", required: true, type: ApplicationCommandOptionType.Number, minValue: 100000000, maxValue: 1000000000 })
     allycode: number,
 
     @SlashChoice(...(Object.keys(availableTranslations) as Array<keyof typeof availableTranslations>).map((key) => ({ name: key, value: availableTranslations[key] })))
-    @SlashOption("language", {
-      description: "If you want a different language than English",
-      required: false,
-      type: ApplicationCommandOptionType.String,
-    })
+    @SlashOption({ name: "language", description: "If you want a different language than English", required: false, type: ApplicationCommandOptionType.String })
     language: string,
     interaction: CommandInteraction,
     client: Client,
@@ -51,16 +41,12 @@ export class UserSetup {
     executeCommand(this.registerImpl, interaction, true, allycode, language ? language : this._config.DEFAULT_LOCALE_PREF);
   }
 
-  @Slash(CommandList.CHANGE_LANGEUAGE_PREF)
+  @Slash({ name: CommandList.CHANGE_LANGEUAGE_PREF })
   @Category("UserSetup")
   @Guard(PlayerRegistered)
   async changeLanguage(
     @SlashChoice(...(Object.keys(availableTranslations) as Array<keyof typeof availableTranslations>).map((key) => ({ name: key, value: availableTranslations[key] })))
-    @SlashOption("language", {
-      description: "If you want a different language than English",
-      required: true,
-      type: ApplicationCommandOptionType.String,
-    })
+    @SlashOption({ name: "language", description: "If you want a different language than English", required: true, type: ApplicationCommandOptionType.String })
     language: string,
     interaction: CommandInteraction,
     client: Client,
@@ -68,7 +54,7 @@ export class UserSetup {
   ): Promise<void> {
     executeCommand(this.changeLanguageImpl, interaction, true, guardData.player, language);
   }
-  @Slash(CommandList.DELETE_ACCOUNT)
+  @Slash({ name: CommandList.DELETE_ACCOUNT })
   @Category("UserSetup")
   @Guard(PlayerRegistered)
   async deleteAccount(interaction: CommandInteraction, client: Client, guardData: { player: User }): Promise<void> {
@@ -88,7 +74,7 @@ export class UserSetup {
     });
   }
 
-  @ButtonComponent("confirm-account-deletion")
+  @ButtonComponent({ id: "confirm-account-deletion" })
   @Guard(PlayerRegistered)
   async confirmAccountDeletion(interaction: ButtonInteraction, client: Client, guardData: { player: User }): Promise<void> {
     await interaction.message.edit({
@@ -98,7 +84,7 @@ export class UserSetup {
     executeCommand(this.deleteAccountImpl, interaction, true, guardData.player);
   }
 
-  @ButtonComponent("cancel-account-deletion")
+  @ButtonComponent({ id: "cancel-account-deletion" })
   @Guard(PlayerRegistered)
   async cancelAccountDeletion(interaction: ButtonInteraction, client: Client, guardData: { player: User }): Promise<void> {
     await await interaction.message.edit({

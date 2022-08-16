@@ -13,5 +13,7 @@ export const CommandSecurityList = (): Map<string, commandStatus> => {
   list.set(deleteAccount.name, deleteAccount);
   const update = new commandStatus(CommandList.UPDATE, true, true);
   list.set(update.name, update);
+  const overview = new commandStatus(CommandList.OVERVIEW, true, true);
+  list.set(overview.name, overview);
   return list;
 };

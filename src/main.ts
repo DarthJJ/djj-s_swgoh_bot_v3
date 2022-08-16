@@ -1,12 +1,13 @@
 import "reflect-metadata";
-import { Config } from "./utils/config.js";
+
 import { dirname, importx } from "@discordx/importer";
-import { container, autoInjectable } from "tsyringe";
-import { ActivityType, CacheType, IntentsBitField, Interaction } from "discord.js";
+import { ActivityType, IntentsBitField, Interaction } from "discord.js";
 import { Client, Discord, DIService, tsyringeDependencyRegistryEngine } from "discordx";
+import { autoInjectable, container } from "tsyringe";
 import { DatabaseManager } from "./database/databaseManager.js";
-import { Log } from "./utils/log.js";
 import { CommandEnabled, NotBot } from "./guard/genericCommandGuard.js";
+import { Config } from "./utils/config.js";
+import { Log } from "./utils/log.js";
 
 //Fix for discord bug
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -79,7 +80,7 @@ export class Main {
     });
 
     this._client.on("interactionCreate", (interaction) => {
-      this.handleTransaction(interaction);
+      this.handleInteraction(interaction);
     });
 
     await importx(dirname(import.meta.url) + "/{events,commands}/**/*.{ts,js}");
@@ -89,13 +90,13 @@ export class Main {
     await this._client.login(this._config.BOT_TOKEN);
   }
 
-  private handleTransaction(interaction: Interaction) {
+  private handleInteraction(interaction: Interaction) {
     try {
       this._log.Logger.silly(interaction.toJSON());
       this._client.executeInteraction(interaction);
     } catch (exception: unknown) {
       this._log.Logger.error(exception);
-      interaction
+      interaction;
     }
   }
 }

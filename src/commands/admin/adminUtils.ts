@@ -25,7 +25,7 @@ export class AdminUtils {
   @Guard(CommandEnabled, PlayerRegistered, Admin, CountryCode)
   @Description("Amount of messages to delete")
   async purge(
-    @SlashOption("amount")
+    @SlashOption({ name: "amount" })
     amount: number,
     interaction: CommandInteraction,
     guardData: { countryCode: string }
